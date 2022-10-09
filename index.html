@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            body {
+                position: absolute;
+                top: 0;
+                left: 0;
+                margin: 0 0;
+                padding: 0;
+                width: 100%;
+                height: 100%;
+                background: transparent;
+                overflow: hidden;
+                box-sizing: border-box;
+            }
+
+            #wrapmainimg {
+                position: absolute;
+                top: 0;
+                left: 0;
+                margin: 0 0;
+                width: 100%;
+                height: 100%;
+                box-sizing: border-box;
+                overflow: hidden;
+                transition: opacity 0.5s;
+                opacity: 0;
+            }
+
+            #mainimg {
+                margin: 0 0;
+                width: 100%;
+                height: 100%;
+            }
+
+            @keyframes wave {
+                0% {
+                    transform: scale(0);
+                }
+                50% {
+                    transform: scale(1);
+                }
+                100% {
+                    transform: scale(0);
+                }
+            }
+            #loading {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                width: 100vw;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: #000;
+                border: 1px solid cyan;
+                border-radius: 1.5vw;
+                box-sizing: border-box;
+                z-index: 10;
+                transition: opacity 0.5s;
+                opacity: 1;
+            }
+            .wave {
+                width: 0.6vw;
+                height: 30vh;
+                background: linear-gradient(45deg, cyan, #fff);
+                margin: 1.25vw;
+                transform: scale(0);
+                animation: wave 1s linear infinite;
+                border-radius: 2vw;
+            }
+            .wave:nth-child(2) {
+                animation-delay: 0.1s;
+            }
+            .wave:nth-child(3) {
+                animation-delay: 0.2s;
+            }
+            .wave:nth-child(4) {
+                animation-delay: 0.3s;
+            }
+            .wave:nth-child(5) {
+                animation-delay: 0.4s;
+            }
+            .wave:nth-child(6) {
+                animation-delay: 0.5s;
+            }
+            .wave:nth-child(7) {
+                animation-delay: 0.6s;
+            }
+            .wave:nth-child(8) {
+                animation-delay: 0.7s;
+            }
+            .wave:nth-child(9) {
+                animation-delay: 0.8s;
+            }
+            .wave:nth-child(10) {
+                animation-delay: 0.9s;
+            }
+        </style>
+        <title>Custom Widget</title>
+    </head>
+    <body>
+
+        <div id="loading">
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+        </div>
+
+        <div id="wrapmainimg">
+            <img id="mainimg" src="" alt="">
+        </div>
+
+        <script>
+            let imgsrc;
+
+            window.electronAPI.getData((event, data) => { // Get data from Main
+                if(data.inprogress == undefined)
+                {
+                    data.imgsrc = data.imgsrc + "?" + new Date().getTime();
+                    imgsrc = data.imgsrc;
+                    document.getElementById("mainimg").src = data.imgsrc;
+                    document.getElementById("loading").style.opacity = "0";
+                    document.getElementById("wrapmainimg").style.opacity = "1";
+                }
+                else
+                {
+                    imgsrc = undefined;
+                    document.getElementById("loading").style.opacity = "1";
+                    document.getElementById("wrapmainimg").style.opacity = "0";
+                }
+            });
+
+            window.onload = (event) => {
+                if(imgsrc != undefined)
+                {
+                    document.getElementById("mainimg").src = imgsrc;
+                    document.getElementById("loading").style.opacity = "0";
+                    document.getElementById("wrapmainimg").style.opacity = "1";
+                }
+            };
+
+        </script>
+    </body>
+</html>

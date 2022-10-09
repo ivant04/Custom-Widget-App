@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="index.css" rel="stylesheet">
+    <title>Custom Widget App</title>
+</head>
+<body>
+    <div class="stars">
+        <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+    </div>
+
+    <div class="widget">
+        <span class="title"><span id="car_arr0"><</span>
+            &nbsp;&nbsp;&nbsp;
+            <span id="car_sel">Widget</span>
+            &nbsp;&nbsp;&nbsp;
+            <div id="car_sel_mwrap">
+                <div id="car_sel_menu">
+                    <div onclick="loadWidgetFromMenu(0)">Widget #1</div>
+                    <div onclick="loadWidgetFromMenu(1)">Widget #2</div>
+                    <div onclick="loadWidgetFromMenu(2)">Widget #3</div>
+                    <div onclick="loadWidgetFromMenu(3)">Widget #4</div>
+                    <div onclick="loadWidgetFromMenu(4)">Widget #5</div>
+                    <div onclick="loadWidgetFromMenu(5)">Widget #6</div>
+                    <div onclick="loadWidgetFromMenu(6)">Widget #7</div>
+                    <div onclick="loadWidgetFromMenu(7)">Widget #8</div>
+                    <div onclick="loadWidgetFromMenu(8)">Widget #9</div>
+                    <div onclick="loadWidgetFromMenu(9)">Widget #10</div>
+                </div>
+            </div>
+        <span id="car_arr1">></span></span>
+        <div id="carousel">
+            <figure id="car_c">
+                <span>#1</span>
+                <span>#2</span>
+                <span>#3</span>
+                <span>#4</span>
+                <span>#5</span>
+                <span>#6</span>
+                <span>#7</span>
+                <span>#8</span>
+                <span>#9</span>
+                <span>#10</span>
+            </figure>
+        </div>
+        <br>
+        <span class="widget_mainp">
+            <span class="gr_title"><span>URL settings</span></span>
+            <span class="el">
+                <span class="el_1_url">
+                    <span>Displayed URL: </span> <br>
+                    <span>Scroll position: </span>
+                </span>
+                <span class="el_2_url">
+                    <input id="inp_url" type="text" value="" placeholder="https://www.google.com"> <br>
+                    <input id="inp_scr0" type="text" value="0"> px
+                </span>
+            </span>
+            <span class="gr_title gr_title_2"><span>Screen position</span></span>
+            <span class="el">
+                <span class="el_1">
+                    <span>X (horizontal): </span> <br>
+                    <span>Y (vertical): </span>
+                </span>
+                <span class="el_2">
+                    <input id="inp_pos0" type="text" value="100"> px <br>
+                    <input id="inp_pos1" type="text" value="140"> px
+                </span>
+                <span class="el_3">
+                    <input id="inp_pos2" type="range" min="0" max="1440" value="100"> <br>
+                    <input id="inp_pos3" type="range" min="0" max="900" value="140">
+                </span>
+            </span>
+            <span class="gr_title gr_title_2"><span>Widget size</span></span>
+            <span class="el">
+                <span class="el_1">
+                    <span>Width: </span> <br>
+                    <span>Height: </span>
+                </span>
+                <span class="el_2">
+                    <input id="inp_siz0" type="text" value="400"> px <br>
+                    <input id="inp_siz1" type="text" value="200"> px
+                </span>
+                <span class="el_3">
+                    <input id="inp_siz2" type="range" min="10" max="1440" value="400"> <br>
+                    <input id="inp_siz3" type="range" min="10" max="900" value="200">
+                </span>
+            </span>
+            <span class="gr_title gr_title_2"><span>Visibility</span></span>
+            <span class="el visibility">
+                <span class="el_1 vis_title">
+                    <span>Show widget: </span> <br>
+                    <span>Opacity: </span>
+                </span>
+                <span class="el_2">
+                    <div></div>
+                    <input id="inp_opa0" type="text" value="100"> %
+                </span>
+                <span class="el_3 vis_3">
+                    <label class="switch"><input type="checkbox" class="checkk" id="inp_vis"><span class="slider"></span></label> <br>
+                    <input id="inp_opa1" type="range" min="0" max="100" value="100">
+                </span>
+            </span>
+            <span class="gr_title gr_title_2 apprnc"><span>Appearance</span></span>
+            <span class="el appearance">
+                <span class="el_1">
+                    <span>Zoom: </span> <br>
+                    <span>Zoom offset X: </span> <br>
+                    <span>Zoom offset Y: </span> <br>
+                    <span>Round edges: </span> <br>
+                    <span>Border width: </span> <br>
+                    <span>Border color: </span>
+                </span>
+                <span class="el_2">
+                    <input id="inp_zoo0" type="text" value="100"> % <br>
+                    <input id="inp_ofx0" type="text" value="50"> % <br>
+                    <input id="inp_ofy0" type="text" value="50"> % <br>
+                    <input id="inp_rou0" type="text" value="10"> % <br>
+                    <input id="inp_bow0" type="text" value="0"> px <br>
+                    <input id="inp_boc0" type="color" value="#ffffff">
+                </span>
+                <span class="el_3">
+                    <input id="inp_zoo1" type="range" min="100" max="500" value="100"> <br>
+                    <input id="inp_ofx1" type="range" min="0" max="100" value="50"> <br>
+                    <input id="inp_ofy1" type="range" min="0" max="100" value="50"> <br>
+                    <input id="inp_rou1" type="range" min="0" max="100" value="10"> <br>
+                    <input id="inp_bow1" type="range" min="0" max="20" value="0"> <br>
+                    <span>&nbsp;</span>
+                </span>
+            </span>
+        </span>
+        <br>
+        <span id="apply">Apply</span>
+    </div>
+
+    <div id="cAlert">
+        <span id="cAlertBox">
+            <div id="cAlertText">Alert!</div>
+            <br>
+            <div id="cAlertOK">OK</div>
+        </span>
+    </div>
+
+    <script>
+        let sett;
+
+        window.electronAPI.getResX((event, value) => { // Get data from Main
+            document.getElementById("inp_pos2").max = value;
+            document.getElementById("inp_siz2").max = value;
+        });
+        window.electronAPI.getResY((event, value) => {
+            document.getElementById("inp_pos3").max = value;
+            document.getElementById("inp_siz3").max = value;
+        });
+        window.electronAPI.getData((event, _sett) => {
+            sett = _sett;
+            loadCooldown = true;
+            loadWidget(0);
+        });
+
+        document.addEventListener('readystatechange', event => { 
+            if(event.target.readyState === "complete") {
+                sendData("_requestData", 1);
+            }
+        });
+
+
+        function updateInp(type, id)
+        {
+            if(type == "siz" || type == "pos")
+            {
+                switch(id)
+                {
+                    case 0:
+                    {
+                        document.getElementById("inp_" + type + "2").value = document.getElementById("inp_" + type + "0").value;
+                        break;
+                    }
+                    case 1:
+                    {
+                        document.getElementById("inp_" + type + "3").value = document.getElementById("inp_" + type + "1").value;
+                        break;
+                    }
+                    case 2:
+                    {
+                        document.getElementById("inp_" + type + "0").value = document.getElementById("inp_" + type + "2").value;
+                        break;
+                    }
+                    case 3:
+                    {
+                        document.getElementById("inp_" + type + "1").value = document.getElementById("inp_" + type + "3").value;
+                        break;
+                    }
+                    default:
+                    {
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                switch(id)
+                {
+                    case 0:
+                    {
+                        document.getElementById("inp_" + type + "1").value = document.getElementById("inp_" + type + "0").value;
+                        break;
+                    }
+                    case 1:
+                    {
+                        document.getElementById("inp_" + type + "0").value = document.getElementById("inp_" + type + "1").value;
+                        break;
+                    }
+                    default:
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+        for(let i = 0; i < 4; i++)
+        {
+            document.getElementById("inp_pos" + i).addEventListener("input", () => { updateInp("pos", i); });
+            document.getElementById("inp_siz" + i).addEventListener("input", () => { updateInp("siz", i); });
+        }
+        for(let i = 0; i < 2; i++)
+        {
+            document.getElementById("inp_opa" + i).addEventListener("input", () => { updateInp("opa", i); });
+            document.getElementById("inp_zoo" + i).addEventListener("input", () => { updateInp("zoo", i); });
+            document.getElementById("inp_ofx" + i).addEventListener("input", () => { updateInp("ofx", i); });
+            document.getElementById("inp_ofy" + i).addEventListener("input", () => { updateInp("ofy", i); });
+            document.getElementById("inp_rou" + i).addEventListener("input", () => { updateInp("rou", i); });
+            document.getElementById("inp_bow" + i).addEventListener("input", () => { updateInp("bow", i); });
+        }
+
+        var cAlertS = false;
+        function cAlert(str)
+        {
+            if(cAlertS) return;
+            cAlertS = true;
+            document.getElementById("cAlertText").innerHTML = str;
+            document.getElementById("cAlert").style.display = "flex";
+        }
+        document.getElementById("cAlertOK").addEventListener("click", () => {
+            cAlertS = false;
+            document.getElementById("cAlert").style.display = "none";
+        });
+        document.addEventListener("keypress", function (e) {
+            if(cAlertS)
+            {
+                if(e.key === "Enter")
+                {
+                    cAlertS = false;
+                    document.getElementById("cAlert").style.display = "none";
+                }
+            }
+        });
+
+
+        document.getElementById("apply").addEventListener("click", () => { // Send data to Main
+            if(document.getElementById("inp_url").value == undefined || document.getElementById("inp_url").value == "" || document.getElementById("inp_url").value == " ")
+            {
+                cAlert("The displayed URL is empty!");
+            }
+            else if(!isValidHttpUrl(document.getElementById("inp_url").value))
+            {
+                cAlert("The displayed URL is not a valid HTTP(s) URL!");
+            }
+            else if(Number(document.getElementById("inp_scr0").value) < 0)
+            {
+                cAlert("The widget scroll value is too low!");
+            }
+            else if(Number(document.getElementById("inp_scr0").value) > 10000000)
+            {
+                cAlert("The widget scroll value is too high!");
+            }
+            else if(Number(document.getElementById("inp_pos0").value) > Number(document.getElementById("inp_pos2").max))
+            {
+                cAlert("The horizontal screen position is too high!");
+            }
+            else if(Number(document.getElementById("inp_pos1").value) > Number(document.getElementById("inp_pos3").max))
+            {
+                cAlert("The vertical screen position is too high!");
+            }
+            else if(Number(document.getElementById("inp_siz0").value) > Number(document.getElementById("inp_siz2").max))
+            {
+                cAlert("The widget width is too high!");
+            }
+            else if(Number(document.getElementById("inp_siz1").value) > Number(document.getElementById("inp_siz3").max))
+            {
+                cAlert("The widget height is too high!");
+            }
+            else if(Number(document.getElementById("inp_siz0").value) < 10)
+            {
+                cAlert("The widget width is too low!");
+            }
+            else if(Number(document.getElementById("inp_siz1").value) < 10)
+            {
+                cAlert("The widget height is too low!");
+            }
+            else if(Number(document.getElementById("inp_opa0").value) < 0)
+            {
+                cAlert("The widget opacity is too low!");
+            }
+            else if(Number(document.getElementById("inp_opa0").value) > 100)
+            {
+                cAlert("The widget opacity is too high!");
+            }
+            else if(Number(document.getElementById("inp_zoo0").value) < 100)
+            {
+                cAlert("The widget zoom value is too low!");
+            }
+            else if(Number(document.getElementById("inp_zoo0").value) > 500)
+            {
+                cAlert("The widget zoom value is too high!");
+            }
+            else if(Number(document.getElementById("inp_ofx0").value) < 0)
+            {
+                cAlert("The zoom offset X is too low!");
+            }
+            else if(Number(document.getElementById("inp_ofx0").value) > 100)
+            {
+                cAlert("The zoom offset X is too high!");
+            }
+            else if(Number(document.getElementById("inp_ofy0").value) < 0)
+            {
+                cAlert("The zoom offset Y is too low!");
+            }
+            else if(Number(document.getElementById("inp_ofy0").value) > 100)
+            {
+                cAlert("The zoom offset Y is too high!");
+            }
+            else if(Number(document.getElementById("inp_rou0").value) < 0)
+            {
+                cAlert("The widget round edges value is too low!");
+            }
+            else if(Number(document.getElementById("inp_rou0").value) > 100)
+            {
+                cAlert("The widget round edges value is too high!");
+            }
+            else if(Number(document.getElementById("inp_bow0").value) < 0)
+            {
+                cAlert("The widget border width is too low!");
+            }
+            else if(Number(document.getElementById("inp_bow0").value) > 20)
+            {
+                cAlert("The widget border width is too high!");
+            }
+            else if(isNaN(document.getElementById("inp_scr0").value) || isNaN(document.getElementById("inp_siz0").value) || isNaN(document.getElementById("inp_siz1").value) || isNaN(document.getElementById("inp_pos0").value) || isNaN(document.getElementById("inp_pos1").value) || isNaN(document.getElementById("inp_opa0").value) || isNaN(document.getElementById("inp_zoo0").value) || isNaN(document.getElementById("inp_ofx0").value) || isNaN(document.getElementById("inp_ofy0").value) || isNaN(document.getElementById("inp_rou0").value) || isNaN(document.getElementById("inp_bow0").value))
+            {
+                cAlert("One of the values is invalid!");
+            }
+            else
+            {
+                if(sett["widget" + loadedWidget] === undefined) sett["widget" + loadedWidget] = {};
+
+                sendData(loadedWidget + "_URL", document.getElementById("inp_url").value);
+                sett["widget" + loadedWidget]["URL"] = document.getElementById("inp_url").value;
+
+                sendData(loadedWidget + "_Scroll", document.getElementById("inp_scr0").value);
+                sett["widget" + loadedWidget]["Scroll"] = document.getElementById("inp_scr0").value;
+
+                sendData(loadedWidget + "_Pos_X", document.getElementById("inp_pos0").value);
+                sett["widget" + loadedWidget]["Pos_X"] = document.getElementById("inp_pos0").value;
+
+                sendData(loadedWidget + "_Pos_Y", document.getElementById("inp_pos1").value);
+                sett["widget" + loadedWidget]["Pos_Y"] = document.getElementById("inp_pos1").value;
+
+                sendData(loadedWidget + "_Size_X", document.getElementById("inp_siz0").value);
+                sett["widget" + loadedWidget]["Size_X"] = document.getElementById("inp_siz0").value;
+
+                sendData(loadedWidget + "_Size_Y", document.getElementById("inp_siz1").value);
+                sett["widget" + loadedWidget]["Size_Y"] = document.getElementById("inp_siz1").value;
+
+                document.getElementById("inp_vis").checked ? sendData(loadedWidget + "_Shown", "1") : sendData(loadedWidget + "_Shown", "0");
+                document.getElementById("inp_vis").checked ? sett["widget" + loadedWidget]["Shown"] = 1 : sett["widget" + loadedWidget]["Shown"] = 0;
+
+                sendData(loadedWidget + "_Opacity", document.getElementById("inp_opa0").value);
+                sett["widget" + loadedWidget]["Opacity"] = document.getElementById("inp_opa0").value;
+
+                sendData(loadedWidget + "_Zoom", document.getElementById("inp_zoo0").value);
+                sett["widget" + loadedWidget]["Zoom"] = document.getElementById("inp_zoo0").value;
+
+                sendData(loadedWidget + "_Zoom_Pos_X", document.getElementById("inp_ofx0").value);
+                sett["widget" + loadedWidget]["Zoom_Pos_X"] = document.getElementById("inp_ofx0").value;
+
+                sendData(loadedWidget + "_Zoom_Pos_Y", document.getElementById("inp_ofy0").value);
+                sett["widget" + loadedWidget]["Zoom_Pos_Y"] = document.getElementById("inp_ofx0").value;
+
+                sendData(loadedWidget + "_Round_Edges", document.getElementById("inp_rou0").value);
+                sett["widget" + loadedWidget]["Round_Edges"] = document.getElementById("inp_rou0").value;
+
+                sendData(loadedWidget + "_Border_Width", document.getElementById("inp_bow0").value);
+                sett["widget" + loadedWidget]["Border_Width"] = document.getElementById("inp_bow0").value;
+
+                sendData(loadedWidget + "_Border_Color", document.getElementById("inp_boc0").value);
+                sett["widget" + loadedWidget]["Border_Color"] = document.getElementById("inp_boc0").value;
+                
+                saveData(loadedWidget);
+            }
+        });
+        function sendData(_tag, _data)
+        {
+            const obj = {
+                tag: _tag,
+                data: _data
+            };
+
+            window.electronAPI.sendInputData(obj);
+        }
+        function saveData(updatedWidget)
+        {
+            sendData("_saveData", updatedWidget);
+        }
+        function isValidHttpUrl(string) 
+        {
+            let url;
+            try 
+            {
+                url = new URL(string);
+            }
+            catch (_) 
+            {
+                return false;  
+            }
+            return url.protocol === "http:" || url.protocol === "https:";
+        }
+
+
+        /*-------------- Carousel --------------*/
+        let currWidget = 0, carmenu = false, loadCooldown = false, loadedWidget = -1;
+
+        let figure = document.getElementById('car_c'),
+        els = figure.children,
+        n = els.length,
+        theta =  2 * Math.PI / n;
+
+        window.addEventListener('load', () => {
+
+            setupCarousel(n, parseFloat(getComputedStyle(els[0]).width));
+            window.addEventListener('resize', () => { 
+                setupCarousel(n, parseFloat(getComputedStyle(els[0]).width)) 
+            });
+
+            for(let i = 0; i < n; i++)
+            {
+                els[i].addEventListener('click', (e) => {
+                    if(loadCooldown)
+                    {
+                        cAlert("You must wait a bit before selecting another widget slot...");
+                    }
+                    else
+                    {
+                        loadCooldown = true;
+                        let index = Array.prototype.indexOf.call(e.target.parentNode.children, e.target);
+                        
+                        currWidget = index;
+                        
+                        rotateCarousel(currWidget);
+                    }
+                }, true);
+            }
+            document.getElementById('car_arr0').addEventListener('click', () => {
+                if(loadCooldown)
+                {
+                    cAlert("You must wait a bit before selecting another widget slot...");
+                }
+                else
+                {
+                    loadCooldown = true;
+                    if(currWidget <= 0) currWidget = 9;
+                    else currWidget--;
+                    rotateCarousel(currWidget);
+                }
+            });
+            document.getElementById('car_arr1').addEventListener('click', () => {
+                if(loadCooldown)
+                {
+                    cAlert("You must wait a bit before selecting another widget slot...");
+                }
+                else
+                {
+                    loadCooldown = true;
+                    if(currWidget >= (n-1)) currWidget = 0;
+                    else currWidget++;
+                    rotateCarousel(currWidget);
+                }
+            });
+            document.getElementById('car_sel').addEventListener('click', (event) => {
+                if(!carmenu)
+                {
+                    event.stopPropagation();
+                    carmenu = true;
+                    document.getElementById('car_sel_mwrap').style.visibility = "visible";
+                    document.getElementById('car_sel_mwrap').style.opacity = "1";
+                }
+            });
+            window.addEventListener('click', () => {
+                if(carmenu)
+                {
+                    carmenu = false;
+                    document.getElementById('car_sel_mwrap').style.opacity = "0";
+                    document.getElementById('car_sel_mwrap').style.visibility = "hidden";
+                }
+            });
+
+            function setupCarousel(n, s) {
+                let	apothem = s / (2 * Math.tan(Math.PI / n));
+                
+                figure.style.transformOrigin = `50% 50% ${- apothem}px`;
+
+                for(let i = 1; i < n; i++)
+                {
+                    els[i].style.transformOrigin = `50% 50% ${- apothem}px`;
+                    els[i].style.transform = `rotateY(${i * theta}rad)`;
+                }
+                
+                rotateCarousel(currWidget);
+            }
+        });
+        function rotateCarousel(el_index)
+        {
+            if(el_index != loadedWidget)
+            {
+                loadWidget(el_index);
+            }
+            figure.style.transform = `rotateY(${el_index * -theta}rad)`;
+        }
+
+        function loadWidgetFromMenu(id)
+        {
+            loadCooldown = true;
+            loadWidget(id);
+        }
+        function loadWidget(id)
+        {
+            if(id >= 0)
+            {
+                loadedWidget = id;
+                if(currWidget != id)
+                {
+                    currWidget = id;
+                    rotateCarousel(currWidget);
+                }
+                setTimeout(() => {
+                    if(sett["widget" + id] !== undefined)
+                    {
+                        document.getElementById("inp_url").value = sett["widget" + id]["URL"] || "";
+                        document.getElementById("inp_scr0").value = sett["widget" + id]["Scroll"] || 0;
+                        document.getElementById("inp_pos0").value = sett["widget" + id]["Pos_X"] || 100;
+                        document.getElementById("inp_pos1").value = sett["widget" + id]["Pos_Y"] || 140;
+                        document.getElementById("inp_siz0").value = sett["widget" + id]["Size_X"] || 200;
+                        document.getElementById("inp_siz1").value = sett["widget" + id]["Size_Y"] || 400;
+                        document.getElementById("inp_vis").checked = Number(sett["widget" + id]["Shown"] || 0);
+                        document.getElementById("inp_opa0").value = sett["widget" + id]["Opacity"] || 100;
+                        document.getElementById("inp_zoo0").value = sett["widget" + id]["Zoom"] || 100;  
+                        document.getElementById("inp_ofx0").value = sett["widget" + id]["Zoom_Pos_X"] || 50;
+                        document.getElementById("inp_ofy0").value = sett["widget" + id]["Zoom_Pos_Y"] || 50;
+                        document.getElementById("inp_rou0").value = sett["widget" + id]["Round_Edges"] || 10;
+                        document.getElementById("inp_bow0").value = sett["widget" + id]["Border_Width"] || 0;
+                        document.getElementById("inp_boc0").value = sett["widget" + id]["Border_Color"] || "#ffffff";
+                    }
+                    else
+                    {
+                        document.getElementById("inp_url").value = "";
+                        document.getElementById("inp_scr0").value = 0;
+                        document.getElementById("inp_pos0").value = 100;
+                        document.getElementById("inp_pos1").value = 140;
+                        document.getElementById("inp_siz0").value = 200;
+                        document.getElementById("inp_siz1").value = 400;
+                        document.getElementById("inp_vis").checked = 0;
+                        document.getElementById("inp_opa0").value = 100;
+                        document.getElementById("inp_zoo0").value = 100;  
+                        document.getElementById("inp_ofx0").value = 50;
+                        document.getElementById("inp_ofy0").value = 50;
+                        document.getElementById("inp_rou0").value = 10;
+                        document.getElementById("inp_bow0").value = 0;
+                        document.getElementById("inp_boc0").value = "#ffffff";
+                    }
+                    updateInp("pos", 0);
+                    updateInp("pos", 1);
+                    updateInp("siz", 0);
+                    updateInp("siz", 1);
+                    updateInp("opa", 0);
+                    updateInp("zoo", 0);
+                    updateInp("ofx", 0);
+                    updateInp("ofy", 0);
+                    updateInp("rou", 0);
+                    updateInp("bow", 0);
+
+                    loadCooldown = false;
+                }, 500);
+            }
+        }
+    </script>
+</body>
+</html>
