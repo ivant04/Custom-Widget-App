@@ -51,6 +51,8 @@ let wtempreload = [], wtemprender = [];
 win.shown = false;
 tempwin.rendering = false;
 let tempwid = -1;
+let widgetFails_Busy = [];
+let widgetFails_Busy_Timer = [];
 
 
 function createDashboard()
@@ -172,7 +174,7 @@ function createDashboard()
     });
     
     win.loadFile("dashboard/index.html");
-    //win.removeMenu();
+    win.removeMenu();
     win.shown = true;
 }
 
@@ -209,6 +211,7 @@ function createWidget(id)
 
     winW["w" + id].shown = true;
     winW["w" + id].renderFailCount = 0;
+    widgetFails_Busy[id] = 0;
 
     renderWidget(id);
 }
@@ -262,7 +265,7 @@ function widgetSetData(id)
     }
 
     
-    if(wtemprender[id] && wtempreload[id])
+    if(wtemprender[id] && wtempreload[id] && winW["w" + id].webContents != undefined)
     {
         winW["w" + id].webContents.reload();
         setTimeout(() => {
@@ -275,18 +278,18 @@ function widgetSetData(id)
         wtemprender[id] = false;
         wtempreload[id] = false;
     }
-    else if(wtemprender[id])
+    else if(wtemprender[id] && winW["w" + id].webContents != undefined)
     {
         winW["w" + id].renderFailCount = 0;
         renderWidget(id);
         wtemprender[id] = false;
     }
-    else if(wtempreload[id])
+    else if(wtempreload[id] && winW["w" + id].webContents != undefined)
     {
         winW["w" + id].webContents.reload();
         setTimeout(() => {
             winW["w" + id].webContents.send('sendData', { // send data from main to renderer
-                imgsrc: roamingPath + "\\widgetRender" + 0 + ".png"
+                imgsrc: roamingPath + "\\widgetRender" + id + ".png"
             });
         }, 500);
         wtempreload[id] = false;
@@ -368,7 +371,8 @@ app.whenReady().then(() => {
     });
 
     // Tray
-    tray = new Tray('icon.ico')
+    const iconPath = path.join(__dirname, "icon.ico");
+    tray = new Tray(iconPath);
     const contextMenu = Menu.buildFromTemplate([
     {
         label: 'Dashboard', click () {
@@ -380,7 +384,7 @@ app.whenReady().then(() => {
             app.exit();
         }
     }]);
-    tray.setToolTip('Custom Widget App');
+    tray.setToolTip("Custom Widget App");
     tray.setContextMenu(contextMenu);
     //
 
@@ -407,6 +411,8 @@ function renderWidget(id)
     {
         tempwin.rendering = true;
         tempwid = id;
+        widgetFails_Busy[id] = 0;
+        if(widgetFails_Busy_Timer[id] != undefined) clearTimeout(widgetFails_Busy_Timer[id]);
 
         winW["w" + tempwid].webContents.send('sendData', { // send data from main to renderer
             inprogress: 1
@@ -419,9 +425,19 @@ function renderWidget(id)
 
         tempwin.failtimer = setTimeout(failedRender, 20000);
     }
-    else
+    else if(id > -1)
     {
-        console.error("Cannot render another image, the widget renderer is already busy! [Trying to render ID: " + id + "]");
+        if(widgetFails_Busy[id] >= 5)
+        {
+            console.error("Cannot render another image, the widget renderer is already busy! [Trying to render ID: " + id + "]");
+        }
+        else
+        {
+            widgetFails_Busy[id]++;
+            widgetFails_Busy_Timer[id] = setTimeout(() => {
+                renderWidget(id);
+            }, 1000);
+        }
     }
 }
 

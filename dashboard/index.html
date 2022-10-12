@@ -81,11 +81,11 @@
                 </span>
                 <span class="el_2">
                     <input id="inp_siz0" type="text" value="400"> px <br>
-                    <input id="inp_siz1" type="text" value="200"> px
+                    <input id="inp_siz1" type="text" value="250"> px
                 </span>
                 <span class="el_3">
                     <input id="inp_siz2" type="range" min="10" max="1440" value="400"> <br>
-                    <input id="inp_siz3" type="range" min="10" max="900" value="200">
+                    <input id="inp_siz3" type="range" min="10" max="900" value="250">
                 </span>
             </span>
             <span class="gr_title gr_title_2"><span>Visibility</span></span>
@@ -118,7 +118,7 @@
                     <input id="inp_ofx0" type="text" value="50"> % <br>
                     <input id="inp_ofy0" type="text" value="50"> % <br>
                     <input id="inp_rou0" type="text" value="10"> % <br>
-                    <input id="inp_bow0" type="text" value="0"> px <br>
+                    <input id="inp_bow0" type="text" value="1"> px <br>
                     <input id="inp_boc0" type="color" value="#ffffff">
                 </span>
                 <span class="el_3">
@@ -126,13 +126,13 @@
                     <input id="inp_ofx1" type="range" min="0" max="100" value="50"> <br>
                     <input id="inp_ofy1" type="range" min="0" max="100" value="50"> <br>
                     <input id="inp_rou1" type="range" min="0" max="100" value="10"> <br>
-                    <input id="inp_bow1" type="range" min="0" max="20" value="0"> <br>
+                    <input id="inp_bow1" type="range" min="0" max="20" value="1"> <br>
                     <span>&nbsp;</span>
                 </span>
             </span>
         </span>
         <br>
-        <span id="apply">Apply</span>
+        <span id="applywrap"><span id="apply">Apply</span></span>
     </div>
 
     <div id="cAlert">
@@ -260,7 +260,11 @@
 
 
         document.getElementById("apply").addEventListener("click", () => { // Send data to Main
-            if(document.getElementById("inp_url").value == undefined || document.getElementById("inp_url").value == "" || document.getElementById("inp_url").value == " ")
+            if(loadCooldown)
+            {
+                cAlert("Cannot save data at the moment, try again in a few seconds.");
+            }
+            else if(document.getElementById("inp_url").value == undefined || document.getElementById("inp_url").value == "" || document.getElementById("inp_url").value == " ")
             {
                 cAlert("The displayed URL is empty!");
             }
@@ -544,6 +548,8 @@
                     currWidget = id;
                     rotateCarousel(currWidget);
                 }
+                document.getElementsByClassName("widget_mainp")[0].style.filter = "blur(5px)";
+                document.getElementById("applywrap").style.filter = "blur(5px)";
                 setTimeout(() => {
                     if(sett["widget" + id] !== undefined)
                     {
@@ -551,15 +557,15 @@
                         document.getElementById("inp_scr0").value = sett["widget" + id]["Scroll"] || 0;
                         document.getElementById("inp_pos0").value = sett["widget" + id]["Pos_X"] || 100;
                         document.getElementById("inp_pos1").value = sett["widget" + id]["Pos_Y"] || 140;
-                        document.getElementById("inp_siz0").value = sett["widget" + id]["Size_X"] || 200;
-                        document.getElementById("inp_siz1").value = sett["widget" + id]["Size_Y"] || 400;
+                        document.getElementById("inp_siz0").value = sett["widget" + id]["Size_X"] || 400;
+                        document.getElementById("inp_siz1").value = sett["widget" + id]["Size_Y"] || 250;
                         document.getElementById("inp_vis").checked = Number(sett["widget" + id]["Shown"] || 0);
                         document.getElementById("inp_opa0").value = sett["widget" + id]["Opacity"] || 100;
                         document.getElementById("inp_zoo0").value = sett["widget" + id]["Zoom"] || 100;  
                         document.getElementById("inp_ofx0").value = sett["widget" + id]["Zoom_Pos_X"] || 50;
                         document.getElementById("inp_ofy0").value = sett["widget" + id]["Zoom_Pos_Y"] || 50;
                         document.getElementById("inp_rou0").value = sett["widget" + id]["Round_Edges"] || 10;
-                        document.getElementById("inp_bow0").value = sett["widget" + id]["Border_Width"] || 0;
+                        document.getElementById("inp_bow0").value = sett["widget" + id]["Border_Width"] || 1;
                         document.getElementById("inp_boc0").value = sett["widget" + id]["Border_Color"] || "#ffffff";
                     }
                     else
@@ -568,15 +574,15 @@
                         document.getElementById("inp_scr0").value = 0;
                         document.getElementById("inp_pos0").value = 100;
                         document.getElementById("inp_pos1").value = 140;
-                        document.getElementById("inp_siz0").value = 200;
-                        document.getElementById("inp_siz1").value = 400;
+                        document.getElementById("inp_siz0").value = 400;
+                        document.getElementById("inp_siz1").value = 250;
                         document.getElementById("inp_vis").checked = 0;
                         document.getElementById("inp_opa0").value = 100;
                         document.getElementById("inp_zoo0").value = 100;  
                         document.getElementById("inp_ofx0").value = 50;
                         document.getElementById("inp_ofy0").value = 50;
                         document.getElementById("inp_rou0").value = 10;
-                        document.getElementById("inp_bow0").value = 0;
+                        document.getElementById("inp_bow0").value = 1;
                         document.getElementById("inp_boc0").value = "#ffffff";
                     }
                     updateInp("pos", 0);
@@ -591,6 +597,11 @@
                     updateInp("bow", 0);
 
                     loadCooldown = false;
+
+                    setTimeout(() => {
+                        document.getElementsByClassName("widget_mainp")[0].style.filter = "none";
+                        document.getElementById("applywrap").style.filter = "none";
+                    }, 400);
                 }, 500);
             }
         }

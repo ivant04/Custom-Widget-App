@@ -77,6 +77,8 @@ body {
     flex-direction: column;
     padding: 2vh 2.5% 0 0;
     left: 2%;
+    transition: 0.5s filter linear;
+    filter: blur(5px);
 }
 
 .title {
@@ -89,12 +91,25 @@ body {
     font-family: 'Trebuchet MS', sans-serif;
 }
 
-#apply {
+#applywrap {
     display: flex;
     justify-content: center;
-    font-weight: bold;
+    align-items: center;
     margin-top: 6%;
+    transition: 0.5s filter linear, color 0.2s;
+    filter: blur(5px);
+}
+
+#apply {
+    color: white;
     cursor: pointer;
+    font-family: 'Trebuchet MS', sans-serif;
+    font-weight: bold;
+    padding: 0 2%;
+}
+
+#apply:hover {
+    color: #0075ff;
 }
 
 .el {
@@ -695,7 +710,7 @@ body {
 #carousel figure {
     margin: 0;
     width: 20%;
-    height: 100%;
+    height: 98%;
     transform-style: preserve-3d;
     transition: transform 0.5s;
     display: flex;
