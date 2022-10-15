@@ -455,12 +455,12 @@ app.whenReady().then(() => {
     tray.setContextMenu(contextMenu);
     //
 
-    globalShortcut.register("Shift+0", () => {
+    /*globalShortcut.register("Shift+0", () => {
         win.webContents.reload();
     });
     globalShortcut.register("Shift+9", () => {
-        winW["w0"].webContents.openDevTools();
-    });
+        win.webContents.openDevTools();
+    });*/
     
 
 });
