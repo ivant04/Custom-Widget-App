@@ -142,6 +142,17 @@
                 }
             });
 
+            window.electronAPI.getMovableStatus((event, value) => {
+                if(value)
+                {
+                    document.body.style.webkitAppRegion = "drag";
+                }
+                else
+                {
+                    document.body.style.webkitAppRegion = "no-drag";
+                }
+            });
+
             window.onload = (event) => {
                 if(imgsrc != undefined)
                 {

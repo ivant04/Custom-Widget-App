@@ -1,0 +1,132 @@
+[data-tooltip-text] {
+    position: relative;
+    z-index: 10;
+}
+  
+[data-tooltip-text]:before, [data-tooltip-text]:after {
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    left: 50%;
+    bottom: calc(100% + 5px);
+    pointer-events: none;
+    transition: 0.2s;
+    will-change: transform;
+}
+  
+[data-tooltip-text]:before {
+    content: attr(data-tooltip-text);
+    padding: 10px 18px;
+    min-width: 50px;
+    max-width: 300px;
+    width: max-content;
+    width: -moz-max-content;
+    border-radius: 6px;
+    font-size: var(--tsize, 14px);
+    background-color: var(--color, rgba(59, 72, 80, 0.9));
+    box-shadow: 0px 0px 24px rgba(0, 0, 0, 0.2);
+    color: var(--tcolor, white);
+    text-align: center;
+    white-space: pre-wrap;
+    transform: translate(-50%, -5px) scale(0.5);
+}
+  
+[data-tooltip-text]:after {
+    content: '';
+    border-style: solid;
+    border-width: 5px 5px 0px 5px;
+    border-color: var(--bcolor, rgba(59, 72, 80, 0.9) transparent transparent transparent);
+    transition-duration: 0s;
+    transform-origin: top;
+    transform: translateX(-50%) scaleY(0);
+}
+
+[data-tooltip-text]:hover:before, [data-tooltip-text]:hover:after {
+    visibility: visible;
+    opacity: 1;
+}
+
+[data-tooltip-text]:hover:before {
+    transition-delay: var(--speed, 0.3s);
+    transform: translate(-50%, -5px) scale(1);
+}
+
+[data-tooltip-text]:hover:after {
+    transition-delay: var(--aspeed, 0.5s);
+    transition-duration: 0.2s;
+    transform: translateX(-50%) scaleY(1);
+}
+
+/**/
+
+[data-tooltip-location="left"]:before, [data-tooltip-location="left"]:after {
+    left: auto;
+    right: calc(100% + 5px);
+    bottom: 50%;
+}
+  
+[data-tooltip-location="left"]:before {
+    transform: translate(-5px, 50%) scale(0.5);
+}
+  
+[data-tooltip-location="left"]:hover:before {
+    transform: translate(-5px, 50%) scale(1);
+}
+  
+[data-tooltip-location="left"]:after {
+    border-width: 5px 0px 5px 5px;
+    border-color: var(--bcolor, transparent transparent transparent rgba(55, 64, 70, 0.9));
+    transform-origin: left;
+    transform: translateY(50%) scaleX(0);
+}
+
+[data-tooltip-location="left"]:hover:after {
+    transform: translateY(50%) scaleX(1);
+}
+  
+[data-tooltip-location="right"]:before, [data-tooltip-location="right"]:after {
+    left: calc(100% + 5px);
+    bottom: 50%;
+}
+  
+[data-tooltip-location="right"]:before {
+    transform: translate(5px, 50%) scale(0.5);
+}
+
+[data-tooltip-location="right"]:hover:before {
+    transform: translate(5px, 50%) scale(1);
+}
+  
+[data-tooltip-location="right"]:after {
+    border-width: 5px 5px 5px 0px;
+    border-color: var(--bcolor, transparent rgba(55, 64, 70, 0.9) transparent transparent);
+    transform-origin: right;
+    transform: translateY(50%) scaleX(0);
+}
+
+[data-tooltip-location="right"]:hover:after {
+    transform: translateY(50%) scaleX(1);
+}
+  
+[data-tooltip-location="bottom"]:before, [data-tooltip-location="bottom"]:after {
+    top: calc(100% + 5px);
+    bottom: auto;
+}
+  
+[data-tooltip-location="bottom"]:before {
+    transform: translate(-50%, 5px) scale(0.5);
+}
+
+[data-tooltip-location="bottom"]:hover:before {
+    transform: translate(-50%, 5px) scale(1);
+}
+  
+[data-tooltip-location="bottom"]:after {
+    border-width: 0px 5px 5px 5px;
+    border-color: var(--bcolor, transparent transparent rgba(55, 64, 70, 0.9) transparent);
+    transform-origin: bottom;
+}
+
+[data-tooltip-location="right"]:hover:after {
+    transform: translateY(50%) scaleX(1);
+}

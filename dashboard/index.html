@@ -4,155 +4,181 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="index.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/64aa23952d.js" crossorigin="anonymous"></script>
+    <script src="tooltip.js"></script>
     <title>Custom Widget App</title>
 </head>
 <body>
-    <div class="stars">
-        <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
-    </div>
-
-    <div class="widget">
-        <span class="title"><span id="car_arr0"><</span>
-            &nbsp;&nbsp;&nbsp;
-            <span id="car_sel">Widget</span>
-            &nbsp;&nbsp;&nbsp;
-            <div id="car_sel_mwrap">
-                <div id="car_sel_menu">
-                    <div onclick="loadWidgetFromMenu(0)">Widget #1</div>
-                    <div onclick="loadWidgetFromMenu(1)">Widget #2</div>
-                    <div onclick="loadWidgetFromMenu(2)">Widget #3</div>
-                    <div onclick="loadWidgetFromMenu(3)">Widget #4</div>
-                    <div onclick="loadWidgetFromMenu(4)">Widget #5</div>
-                    <div onclick="loadWidgetFromMenu(5)">Widget #6</div>
-                    <div onclick="loadWidgetFromMenu(6)">Widget #7</div>
-                    <div onclick="loadWidgetFromMenu(7)">Widget #8</div>
-                    <div onclick="loadWidgetFromMenu(8)">Widget #9</div>
-                    <div onclick="loadWidgetFromMenu(9)">Widget #10</div>
-                </div>
-            </div>
-        <span id="car_arr1">></span></span>
-        <div id="carousel">
-            <figure id="car_c">
-                <span>#1</span>
-                <span>#2</span>
-                <span>#3</span>
-                <span>#4</span>
-                <span>#5</span>
-                <span>#6</span>
-                <span>#7</span>
-                <span>#8</span>
-                <span>#9</span>
-                <span>#10</span>
-            </figure>
+    <div id="bodywrap">
+        <div id="windowBar">
+            <span id="windowBar_t">Custom Widget App &ndash; Dashboard<span id="windowBar_ts">by Toxic48</span></span>
+            <span id="windowBar_a">
+                <i class="fa-regular fa-window-minimize" id="minWindow"></i>
+                <i class="fa-solid fa-xmark" id="closeWindow"></i>
+            </span>
         </div>
-        <br>
-        <span class="widget_mainp">
-            <span class="gr_title"><span>URL settings</span></span>
-            <span class="el">
-                <span class="el_1_url">
-                    <span>Displayed URL: </span> <br>
-                    <span>Scroll position: </span>
-                </span>
-                <span class="el_2_url">
-                    <input id="inp_url" type="text" value="" placeholder="https://www.google.com"> <br>
-                    <input id="inp_scr0" type="text" value="0"> px
-                </span>
-            </span>
-            <span class="gr_title gr_title_2"><span>Screen position</span></span>
-            <span class="el">
-                <span class="el_1">
-                    <span>X (horizontal): </span> <br>
-                    <span>Y (vertical): </span>
-                </span>
-                <span class="el_2">
-                    <input id="inp_pos0" type="text" value="100"> px <br>
-                    <input id="inp_pos1" type="text" value="140"> px
-                </span>
-                <span class="el_3">
-                    <input id="inp_pos2" type="range" min="0" max="1440" value="100"> <br>
-                    <input id="inp_pos3" type="range" min="0" max="900" value="140">
-                </span>
-            </span>
-            <span class="gr_title gr_title_2"><span>Widget size</span></span>
-            <span class="el">
-                <span class="el_1">
-                    <span>Width: </span> <br>
-                    <span>Height: </span>
-                </span>
-                <span class="el_2">
-                    <input id="inp_siz0" type="text" value="400"> px <br>
-                    <input id="inp_siz1" type="text" value="250"> px
-                </span>
-                <span class="el_3">
-                    <input id="inp_siz2" type="range" min="10" max="1440" value="400"> <br>
-                    <input id="inp_siz3" type="range" min="10" max="900" value="250">
-                </span>
-            </span>
-            <span class="gr_title gr_title_2"><span>Visibility</span></span>
-            <span class="el visibility">
-                <span class="el_1 vis_title">
-                    <span>Show widget: </span> <br>
-                    <span>Opacity: </span>
-                </span>
-                <span class="el_2">
-                    <div></div>
-                    <input id="inp_opa0" type="text" value="100"> %
-                </span>
-                <span class="el_3 vis_3">
-                    <label class="switch"><input type="checkbox" class="checkk" id="inp_vis"><span class="slider"></span></label> <br>
-                    <input id="inp_opa1" type="range" min="0" max="100" value="100">
-                </span>
-            </span>
-            <span class="gr_title gr_title_2 apprnc"><span>Appearance</span></span>
-            <span class="el appearance">
-                <span class="el_1">
-                    <span>Zoom: </span> <br>
-                    <span>Zoom offset X: </span> <br>
-                    <span>Zoom offset Y: </span> <br>
-                    <span>Round edges: </span> <br>
-                    <span>Border width: </span> <br>
-                    <span>Border color: </span>
-                </span>
-                <span class="el_2">
-                    <input id="inp_zoo0" type="text" value="100"> % <br>
-                    <input id="inp_ofx0" type="text" value="50"> % <br>
-                    <input id="inp_ofy0" type="text" value="50"> % <br>
-                    <input id="inp_rou0" type="text" value="10"> % <br>
-                    <input id="inp_bow0" type="text" value="1"> px <br>
-                    <input id="inp_boc0" type="color" value="#ffffff">
-                </span>
-                <span class="el_3">
-                    <input id="inp_zoo1" type="range" min="100" max="500" value="100"> <br>
-                    <input id="inp_ofx1" type="range" min="0" max="100" value="50"> <br>
-                    <input id="inp_ofy1" type="range" min="0" max="100" value="50"> <br>
-                    <input id="inp_rou1" type="range" min="0" max="100" value="10"> <br>
-                    <input id="inp_bow1" type="range" min="0" max="20" value="1"> <br>
-                    <span>&nbsp;</span>
-                </span>
-            </span>
-        </span>
-        <br>
-        <span id="applywrap"><span id="apply">Apply</span></span>
-    </div>
 
-    <div id="cAlert">
-        <span id="cAlertBox">
-            <div id="cAlertText">Alert!</div>
+        <div class="widget">
+            <span class="title"><span id="car_arr0"><</span>
+                &nbsp;&nbsp;&nbsp;
+                <span id="car_sel">Widget</span>
+                &nbsp;&nbsp;&nbsp;
+                <div id="car_sel_mwrap">
+                    <div id="car_sel_menu">
+                        <div onclick="loadWidgetFromMenu(0)">Widget #1</div>
+                        <div onclick="loadWidgetFromMenu(1)">Widget #2</div>
+                        <div onclick="loadWidgetFromMenu(2)">Widget #3</div>
+                        <div onclick="loadWidgetFromMenu(3)">Widget #4</div>
+                        <div onclick="loadWidgetFromMenu(4)">Widget #5</div>
+                        <div onclick="loadWidgetFromMenu(5)">Widget #6</div>
+                        <div onclick="loadWidgetFromMenu(6)">Widget #7</div>
+                        <div onclick="loadWidgetFromMenu(7)">Widget #8</div>
+                        <div onclick="loadWidgetFromMenu(8)">Widget #9</div>
+                        <div onclick="loadWidgetFromMenu(9)">Widget #10</div>
+                    </div>
+                </div>
+            <span id="car_arr1">></span></span>
+            <div id="carousel">
+                <figure id="car_c">
+                    <span>#1</span>
+                    <span>#2</span>
+                    <span>#3</span>
+                    <span>#4</span>
+                    <span>#5</span>
+                    <span>#6</span>
+                    <span>#7</span>
+                    <span>#8</span>
+                    <span>#9</span>
+                    <span>#10</span>
+                </figure>
+            </div>
             <br>
-            <div id="cAlertOK">OK</div>
-        </span>
+            <span class="widget_mainp">
+                <span class="gr_title"><span>URL settings</span></span>
+                <span class="el">
+                    <span class="el_1_url">
+                        <span>Displayed URL: </span> <br>
+                        <span>Scroll position: </span>
+                    </span>
+                    <span class="el_2_url">
+                        <input id="inp_url" type="text" value="" placeholder="https://www.google.com"> <br>
+                        <input id="inp_scr0" type="text" value="0"> px
+                    </span>
+                </span>
+                <span class="gr_title gr_title_2"><span>Screen position</span></span>
+                <span class="el">
+                    <span class="el_1">
+                        <span>Horizontal: </span> <br>
+                        <span>Vertical: </span>
+                    </span>
+                    <span class="el_2_b">
+                        <span data-tooltip-text="You can move the widget using your mouse cursor while the Dashboard window is open" data-tooltip-color="rgb(59, 72, 80)" data-tooltip-speed="0.1s">
+                            <i class="fa-solid fa-up-down-left-right"></i>
+                        </span>
+                    </span>
+                    <span class="el_3_b">
+                        <input id="inp_pos0" type="text" value="100"> px <br>
+                        <input id="inp_pos1" type="text" value="140"> px
+                    </span>
+                </span>
+                <span class="gr_title gr_title_2"><span>Widget size</span></span>
+                <span class="el">
+                    <span class="el_1">
+                        <span>Width: </span> <br>
+                        <span>Height: </span>
+                    </span>
+                    <span class="el_2_b">
+                        <span data-tooltip-text="You can resize the widget using your mouse cursor while the Dashboard window is open" data-tooltip-color="rgb(59, 72, 80)" data-tooltip-speed="0.1s">
+                            <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+                        </span>
+                    </span>
+                    <span class="el_3_b">
+                        <input id="inp_siz0" type="text" value="400"> px <br>
+                        <input id="inp_siz1" type="text" value="250"> px
+                    </span>
+                </span>
+                <span class="gr_title gr_title_2"><span>Visibility</span></span>
+                <span class="el visibility">
+                    <span class="el_1 vis_title">
+                        <span>Show widget: </span> <br>
+                        <span>Opacity: </span>
+                    </span>
+                    <span class="el_2">
+                        <div></div>
+                        <input id="inp_opa0" type="text" value="100"> %
+                    </span>
+                    <span class="el_3 vis_3">
+                        <label class="switch"><input type="checkbox" class="checkk" id="inp_vis"><span class="slider"></span></label> <br>
+                        <input id="inp_opa1" type="range" min="0" max="100" value="100">
+                    </span>
+                </span>
+                <span class="gr_title gr_title_2 apprnc"><span>Appearance</span></span>
+                <span class="el appearance">
+                    <span class="el_1">
+                        <span>Zoom: </span> <br>
+                        <span>Zoom offset X: </span> <br>
+                        <span>Zoom offset Y: </span> <br>
+                        <span>Round edges: </span> <br>
+                        <span>Border width: </span> <br>
+                        <span>Border color: </span>
+                    </span>
+                    <span class="el_2">
+                        <input id="inp_zoo0" type="text" value="100"> % <br>
+                        <input id="inp_ofx0" type="text" value="50"> % <br>
+                        <input id="inp_ofy0" type="text" value="50"> % <br>
+                        <input id="inp_rou0" type="text" value="10"> % <br>
+                        <input id="inp_bow0" type="text" value="1"> px <br>
+                        <input id="inp_boc0" type="color" value="#ffffff">
+                    </span>
+                    <span class="el_3">
+                        <input id="inp_zoo1" type="range" min="100" max="500" value="100"> <br>
+                        <input id="inp_ofx1" type="range" min="0" max="100" value="50"> <br>
+                        <input id="inp_ofy1" type="range" min="0" max="100" value="50"> <br>
+                        <input id="inp_rou1" type="range" min="0" max="100" value="10"> <br>
+                        <input id="inp_bow1" type="range" min="0" max="20" value="1"> <br>
+                        <span>&nbsp;</span>
+                    </span>
+                </span>
+            </span>
+            <br>
+            <span id="applywrap"><span id="apply">Apply</span></span>
+        </div>
+
+        <div id="cAlert">
+            <span id="cAlertBox">
+                <div id="cAlertText">Alert!</div>
+                <br>
+                <div id="cAlertOK">OK</div>
+            </span>
+        </div>
     </div>
 
     <script>
-        let sett;
+        let sett, resx, resy;
 
         window.electronAPI.getResX((event, value) => { // Get data from Main
-            document.getElementById("inp_pos2").max = value;
-            document.getElementById("inp_siz2").max = value;
+            resx = value;
         });
         window.electronAPI.getResY((event, value) => {
-            document.getElementById("inp_pos3").max = value;
-            document.getElementById("inp_siz3").max = value;
+            resy = value;
+        });
+        window.electronAPI.getNewSize((event, obj) => {
+            if(loadedWidget == obj.wid)
+            {
+                document.getElementById("inp_siz0").value = obj.x;
+                document.getElementById("inp_siz1").value = obj.y;
+            }
+            sett["widget" + obj.wid].Size_X = obj.x;
+            sett["widget" + obj.wid].Size_Y = obj.y;
+        });
+        window.electronAPI.getNewPos((event, obj) => {
+            if(loadedWidget == obj.wid)
+            {
+                document.getElementById("inp_pos0").value = obj.x;
+                document.getElementById("inp_pos1").value = obj.y;
+            }
+            sett["widget" + obj.wid].Pos_X = obj.x;
+            sett["widget" + obj.wid].Pos_Y = obj.y;
         });
         window.electronAPI.getData((event, _sett) => {
             sett = _sett;
@@ -169,61 +195,24 @@
 
         function updateInp(type, id)
         {
-            if(type == "siz" || type == "pos")
+            if(document.getElementById("inp_" + type + "0") == undefined) return;
+            switch(id)
             {
-                switch(id)
+                case 0:
                 {
-                    case 0:
-                    {
-                        document.getElementById("inp_" + type + "2").value = document.getElementById("inp_" + type + "0").value;
-                        break;
-                    }
-                    case 1:
-                    {
-                        document.getElementById("inp_" + type + "3").value = document.getElementById("inp_" + type + "1").value;
-                        break;
-                    }
-                    case 2:
-                    {
-                        document.getElementById("inp_" + type + "0").value = document.getElementById("inp_" + type + "2").value;
-                        break;
-                    }
-                    case 3:
-                    {
-                        document.getElementById("inp_" + type + "1").value = document.getElementById("inp_" + type + "3").value;
-                        break;
-                    }
-                    default:
-                    {
-                        break;
-                    }
+                    document.getElementById("inp_" + type + "1").value = document.getElementById("inp_" + type + "0").value;
+                    break;
+                }
+                case 1:
+                {
+                    document.getElementById("inp_" + type + "0").value = document.getElementById("inp_" + type + "1").value;
+                    break;
+                }
+                default:
+                {
+                    break;
                 }
             }
-            else
-            {
-                switch(id)
-                {
-                    case 0:
-                    {
-                        document.getElementById("inp_" + type + "1").value = document.getElementById("inp_" + type + "0").value;
-                        break;
-                    }
-                    case 1:
-                    {
-                        document.getElementById("inp_" + type + "0").value = document.getElementById("inp_" + type + "1").value;
-                        break;
-                    }
-                    default:
-                    {
-                        break;
-                    }
-                }
-            }
-        }
-        for(let i = 0; i < 4; i++)
-        {
-            document.getElementById("inp_pos" + i).addEventListener("input", () => { updateInp("pos", i); });
-            document.getElementById("inp_siz" + i).addEventListener("input", () => { updateInp("siz", i); });
         }
         for(let i = 0; i < 2; i++)
         {
@@ -280,27 +269,35 @@
             {
                 cAlert("The widget scroll value is too high!");
             }
-            else if(Number(document.getElementById("inp_pos0").value) > Number(document.getElementById("inp_pos2").max))
+            else if(Number(document.getElementById("inp_pos0").value) > resx)
             {
                 cAlert("The horizontal screen position is too high!");
             }
-            else if(Number(document.getElementById("inp_pos1").value) > Number(document.getElementById("inp_pos3").max))
+            else if(Number(document.getElementById("inp_pos1").value) > resy)
             {
                 cAlert("The vertical screen position is too high!");
             }
-            else if(Number(document.getElementById("inp_siz0").value) > Number(document.getElementById("inp_siz2").max))
+            else if(Number(document.getElementById("inp_pos0").value) < -(resx))
+            {
+                cAlert("The horizontal screen position is too low!");
+            }
+            else if(Number(document.getElementById("inp_pos1").value) < -(resy))
+            {
+                cAlert("The vertical screen position is too low!");
+            }
+            else if(Number(document.getElementById("inp_siz0").value) > resx)
             {
                 cAlert("The widget width is too high!");
             }
-            else if(Number(document.getElementById("inp_siz1").value) > Number(document.getElementById("inp_siz3").max))
+            else if(Number(document.getElementById("inp_siz1").value) > resy)
             {
                 cAlert("The widget height is too high!");
             }
-            else if(Number(document.getElementById("inp_siz0").value) < 10)
+            else if(Number(document.getElementById("inp_siz0").value) < 40)
             {
                 cAlert("The widget width is too low!");
             }
-            else if(Number(document.getElementById("inp_siz1").value) < 10)
+            else if(Number(document.getElementById("inp_siz1").value) < 40)
             {
                 cAlert("The widget height is too low!");
             }
@@ -585,10 +582,6 @@
                         document.getElementById("inp_bow0").value = 1;
                         document.getElementById("inp_boc0").value = "#ffffff";
                     }
-                    updateInp("pos", 0);
-                    updateInp("pos", 1);
-                    updateInp("siz", 0);
-                    updateInp("siz", 1);
                     updateInp("opa", 0);
                     updateInp("zoo", 0);
                     updateInp("ofx", 0);
@@ -605,6 +598,15 @@
                 }, 500);
             }
         }
+
+
+        /*-------------- Window Bar --------------*/
+        document.getElementById("minWindow").addEventListener("click", () => {
+            window.electronAPI.minimizeWindow(1);
+        });
+        document.getElementById("closeWindow").addEventListener("click", () => {
+            window.electronAPI.closeWindow(1);
+        });
     </script>
 </body>
 </html>

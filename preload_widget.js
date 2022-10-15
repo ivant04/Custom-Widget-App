@@ -4,7 +4,8 @@ const fs = require("fs");
 
 
 contextBridge.exposeInMainWorld('electronAPI', {
-    getData: (data) => ipcRenderer.on('sendData', data)
+    getData: (data) => ipcRenderer.on('sendData', data),
+    getMovableStatus: (value) => ipcRenderer.on('movable', value)
 });
 
 
