@@ -79,16 +79,4 @@ window.onload = (event) => {
 
     document.body.scroll = "no";
     document.body.style.overflow = "hidden";
-    document.body.style.pointerEvents = "none";
-    document.body.style.userSelect = "none";
 }
-
-
-[].map.call(document, function(elem) {
-    elem.addEventListener("keydown", function(e) {
-        if (e.keyCode != 9) {
-            e.returnValue = false;
-            return false;
-        }
-    }, true);
-});

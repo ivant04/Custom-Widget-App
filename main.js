@@ -191,7 +191,6 @@ function createDashboard()
     });
     
     win.loadFile("dashboard/index.html");
-    win.removeMenu();
     win.shown = true;
 
 
@@ -200,7 +199,7 @@ function createDashboard()
         if(winW["w" + i] != undefined && winW["w" + i].shown)
         {
             if(!winW["w" + i].isResizable()) winW["w" + i].setResizable(true);
-            if(!winW["w" + i].isMovable()) { winW["w" + i].setMovable(true); winW["w" + i].webContents.send('movable', 1); }
+            if(!winW["w" + i].isMovable()) { winW["w" + i].webContents.send('movable', 1); winW["w" + i].setMovable(true); }
         }
     }
 }
@@ -215,15 +214,14 @@ function createWidget(id)
         title: "Custom Widget - ID " + id,
         icon: "icon.ico",
         frame: false,
-        focusable: false,
         backgroundColor: '#00000000',
         skipTaskbar: true,
+        focusable: false,
         closable: false,
         minimizable: false,
         resizable: false,
         movable: false,
         transparent: true,
-        backgroundThrottling: false,
         offscreen: true,
         webPreferences: {
             nodeIntegration: true,
@@ -234,12 +232,18 @@ function createWidget(id)
         event.preventDefault();
     });
     winW["w" + id].on("resized", () => {
-        if(win.shown)
+        if(win.shown) // when resized, position has to be updated as well in some cases
         {
-            const [sizx, sizy] = winW["w" + id].getSize();
+            let [sizx, sizy] = winW["w" + id].getSize();
+            if(sizx < 40 || sizy < 40) { sizx = 40; sizy = 40; winW["w" + id].setSize(40, 40); }
             win.webContents.send('resizeEvent', {wid: id, x: sizx, y: sizy});
             sett["widget" + id].Size_X = sizx;
             sett["widget" + id].Size_Y = sizy;
+
+            const [posx, posy] = winW["w" + id].getPosition();
+            win.webContents.send('moveEvent', {wid: id, x: posx, y: posy});
+            sett["widget" + id].Pos_X = posx;
+            sett["widget" + id].Pos_Y = posy;
         }
     });
     winW["w" + id].on("moved", () => {
@@ -265,8 +269,8 @@ function createWidget(id)
 
     if(win.shown)
     {
-        if(!winW["w" + id].isResizable()) winW["w" + i].setResizable(true);
-        if(!winW["w" + id].isMovable()) { winW["w" + i].setMovable(true); winW["w" + i].webContents.send('movable', 1); }
+        if(!winW["w" + id].isResizable()) winW["w" + id].setResizable(true);
+        if(!winW["w" + id].isMovable()) { winW["w" + id].setMovable(true); winW["w" + id].webContents.send('movable', 1); }
     }
 }
 
@@ -291,7 +295,7 @@ function widgetSetData(id)
         if(winW["w" + id] != undefined)
         {
             if(!winW["w" + id].isResizable()) winW["w" + id].setResizable(true);
-            if(!winW["w" + id].isMovable()) { winW["w" + id].setMovable(true); winW["w" + i].webContents.send('movable', 1); }
+            if(!winW["w" + id].isMovable()) { winW["w" + id].setMovable(true); winW["w" + id].webContents.send('movable', 1); }
         }
 
         if(winW["w" + id] == undefined && Number(sett["widget" + id].Shown) == 1)
@@ -390,6 +394,7 @@ function createTempWin()
             failedRender();
         }
     });
+    tempwin.webContents.setAudioMuted(true);
     tempwin.on("closed", (event) => {
         app.exit();
     });
@@ -455,12 +460,12 @@ app.whenReady().then(() => {
     tray.setContextMenu(contextMenu);
     //
 
-    /*globalShortcut.register("Shift+0", () => {
+    globalShortcut.register("Shift+0", () => {
         win.webContents.reload();
     });
     globalShortcut.register("Shift+9", () => {
-        win.webContents.openDevTools();
-    });*/
+        winW["w0"].webContents.openDevTools();
+    });
     
 
 });
@@ -493,6 +498,7 @@ function renderWidget(id)
         fs.writeFileSync(roamingPath + '\\settings.json', JSON.stringify(sett));
 
         tempwin.loadURL(sett["widget" + id].URL);
+        tempwin.webContents.setAudioMuted(true);
 
         tempwin.failtimer = setTimeout(failedRender, 20000);
     }
