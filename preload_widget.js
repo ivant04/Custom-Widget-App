@@ -1,11 +1,13 @@
 const { contextBridge, ipcRenderer } = require("electron");
 const remote = require("@electron/remote");
 const fs = require("fs");
+const { send } = require("process");
 
 
 contextBridge.exposeInMainWorld('electronAPI', {
     getData: (data) => ipcRenderer.on('sendData', data),
-    getMovableStatus: (value) => ipcRenderer.on('movable', value)
+    getMovableStatus: (value) => ipcRenderer.on('movable', value),
+    sendLogs: (data) => ipcRenderer.send('widgetLogs', data)
 });
 
 
@@ -30,6 +32,8 @@ else
 {
     id = Number(ttl.substring("Custom Widget - ID ".length));
 }
+
+
 
 
 window.onload = (event) => {

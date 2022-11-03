@@ -72,7 +72,7 @@
                         <span>Vertical: </span>
                     </span>
                     <span class="el_2_b">
-                        <span data-tooltip-text="You can move the widget using your mouse cursor while the Dashboard window is open" data-tooltip-color="rgb(59, 72, 80)" data-tooltip-speed="0.1s">
+                        <span id="moveWindow" data-tooltip-text="Enable moving the widget using your mouse cursor" data-tooltip-color="rgb(59, 72, 80)" data-tooltip-speed="0.1s">
                             <i class="fa-solid fa-up-down-left-right"></i>
                         </span>
                     </span>
@@ -88,7 +88,7 @@
                         <span>Height: </span>
                     </span>
                     <span class="el_2_b">
-                        <span data-tooltip-text="You can resize the widget using your mouse cursor while the Dashboard window is open" data-tooltip-color="rgb(59, 72, 80)" data-tooltip-speed="0.1s">
+                        <span id="resizeWindow" data-tooltip-text="Enable resizing the widget using your mouse cursor" data-tooltip-color="rgb(59, 72, 80)" data-tooltip-speed="0.1s">
                             <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
                         </span>
                     </span>
@@ -184,6 +184,13 @@
             sett = _sett;
             loadCooldown = true;
             loadWidget(0);
+        });
+
+        document.getElementById("resizeWindow").addEventListener("click", () => {
+            sendData("_resizeWindow", loadedWidget);
+        });
+        document.getElementById("moveWindow").addEventListener("click", () => {
+            sendData("_moveWindow", loadedWidget);
         });
 
         document.addEventListener('readystatechange', event => { 
@@ -589,12 +596,12 @@
                     updateInp("rou", 0);
                     updateInp("bow", 0);
 
-                    loadCooldown = false;
-
+                    
                     setTimeout(() => {
                         document.getElementsByClassName("widget_mainp")[0].style.filter = "none";
                         document.getElementById("applywrap").style.filter = "none";
-                    }, 400);
+                        loadCooldown = false;
+                    }, 250);
                 }, 500);
             }
         }

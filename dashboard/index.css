@@ -293,6 +293,7 @@ body {
 .el_2_b span {
     padding: 3%;
     transition: 0.2s color;
+    cursor: pointer;
 }
 
 .el_2_b span:hover {

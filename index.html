@@ -3,6 +3,42 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script>
+           if(console.everything === undefined)
+            {
+                console.everything = [];
+
+                console.defaultLog = console.log.bind(console);
+                console.log = function(){
+                    const pushing = {"type":"log", "datetime":Date().toLocaleString(), "value":Array.from(arguments)};
+                    console.everything.push(pushing);
+                    console.defaultLog.apply(console, arguments);
+                    window.electronAPI.sendLogs(pushing);
+                }
+                console.defaultError = console.error.bind(console);
+                console.error = function(){
+                    const pushing = {"type":"error", "datetime":Date().toLocaleString(), "value":Array.from(arguments)};
+                    console.everything.push(pushing);
+                    console.defaultError.apply(console, arguments);
+                    window.electronAPI.sendLogs(pushing);
+                }
+                console.defaultWarn = console.warn.bind(console);
+                console.warn = function(){
+                    const pushing = {"type":"warn", "datetime":Date().toLocaleString(), "value":Array.from(arguments)};
+                    console.everything.push(pushing);
+                    console.defaultWarn.apply(console, arguments);
+                    window.electronAPI.sendLogs(pushing);
+                }
+                console.defaultDebug = console.debug.bind(console);
+                console.debug = function(){
+                    const pushing = {"type":"debug", "datetime":Date().toLocaleString(), "value":Array.from(arguments)};
+                    console.everything.push(pushing);
+                    console.defaultDebug.apply(console, arguments);
+                    window.electronAPI.sendLogs(pushing);
+                }
+            }
+
+        </script>
         <style>
             body {
                 position: absolute;
@@ -15,6 +51,7 @@
                 background: transparent;
                 overflow: hidden;
                 box-sizing: border-box;
+                -webkit-app-region: drag;
             }
 
             #wrapmainimg {
@@ -139,19 +176,6 @@
                     imgsrc = undefined;
                     document.getElementById("loading").style.opacity = "1";
                     document.getElementById("wrapmainimg").style.opacity = "0";
-                }
-            });
-
-            window.electronAPI.getMovableStatus((event, value) => {
-                if(value)
-                {
-                    document.body.style.webkitAppRegion = "drag";
-                    document.getElementById("mainimg").webkitAppRegion = "drag";
-                }
-                else
-                {
-                    document.body.style.webkitAppRegion = "no-drag";
-                    document.getElementById("mainimg").webkitAppRegion = "no-drag";
                 }
             });
 

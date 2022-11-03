@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, Tray, ipcMain, globalShortcut, dialog } = require('electron');
+const { app, session, BrowserWindow, Menu, Tray, ipcMain, globalShortcut, dialog } = require('electron');
 const { SetBottomMost } = require("electron-bottom-most");
 const { DisableMinimize } = require("electron-disable-minimize");
 const remoteMain = require("@electron/remote/main");
@@ -6,7 +6,6 @@ remoteMain.initialize();
 const path = require("path");
 const fs = require("fs");
 const MAX_WIDGETS = 10;
-
 
 
 let showDash = false;
@@ -85,7 +84,7 @@ function createDashboard()
             if(winW["w" + i] != undefined)
             {
                 if(winW["w" + i].isResizable()) winW["w" + i].setResizable(false);
-                if(winW["w" + i].isMovable()) { winW["w" + i].setMovable(false); winW["w" + i].webContents.send('movable', 0); }
+                if(winW["w" + i].isMovable()) winW["w" + i].setMovable(false);
 
                 if(winW["w" + i].shown)
                 {
@@ -128,6 +127,14 @@ function createDashboard()
             {
                 console.error(err);
             } 
+        }
+        else if(obj.tag == "_resizeWindow" && obj.data > -1)
+        {
+            winW["w" + obj.data].setResizable(true);
+        }
+        else if(obj.tag == "_moveWindow" && obj.data > -1)
+        {
+            winW["w" + obj.data].setMovable(true);
         }
         else if(obj.tag == "_requestData") // called when dashboard is ready (DOM loaded)
         {
@@ -193,15 +200,6 @@ function createDashboard()
     win.loadFile("dashboard/index.html");
     win.shown = true;
 
-
-    for(let i = 0; i < MAX_WIDGETS; i++)
-    {
-        if(winW["w" + i] != undefined && winW["w" + i].shown)
-        {
-            if(!winW["w" + i].isResizable()) winW["w" + i].setResizable(true);
-            if(!winW["w" + i].isMovable()) { winW["w" + i].webContents.send('movable', 1); winW["w" + i].setMovable(true); }
-        }
-    }
 }
 
 function createWidget(id)
@@ -264,15 +262,24 @@ function createWidget(id)
     winW["w" + id].shown = true;
     winW["w" + id].renderFailCount = 0;
     widgetFails_Busy[id] = 0;
+    winW["w" + id].updateInterval = null;
 
     renderWidget(id);
 
-    if(win.shown)
-    {
-        if(!winW["w" + id].isResizable()) winW["w" + id].setResizable(true);
-        if(!winW["w" + id].isMovable()) { winW["w" + id].setMovable(true); winW["w" + id].webContents.send('movable', 1); }
-    }
+
+    /*setInterval(() => {
+        console.log(winW["w" + id].isMovable());
+    }, 1000);*/
 }
+ipcMain.on('widgetLogs', (event, obj) => {
+    let values = "";
+    for(let i = 0; i < obj.value.length; i++)
+    {
+        values += obj.value;
+        if(obj.value.length > 1) values += "; ";
+    }
+    console.log("[Widget " + obj.type + "] " + values);
+});
 
 function createShownWidgets()
 {
@@ -292,12 +299,6 @@ function widgetSetData(id)
 {
     if(win.shown) // if dashboard is open
     {
-        if(winW["w" + id] != undefined)
-        {
-            if(!winW["w" + id].isResizable()) winW["w" + id].setResizable(true);
-            if(!winW["w" + id].isMovable()) { winW["w" + id].setMovable(true); winW["w" + id].webContents.send('movable', 1); }
-        }
-
         if(winW["w" + id] == undefined && Number(sett["widget" + id].Shown) == 1)
         {
             createWidget(id);
@@ -449,6 +450,7 @@ app.whenReady().then(() => {
     {
         label: 'Dashboard', click () {
             if(win.shown != true) createDashboard();
+            else if(win.shown && win.isMinimized()) win.restore();
         }
     },
     {
@@ -481,7 +483,7 @@ app.on('will-quit', () => {
     globalShortcut.unregisterAll();
 });
 
-function renderWidget(id)
+function renderWidget(id, loadingAnim = true)
 {
     if(!tempwin.rendering && id > -1)
     {
@@ -490,9 +492,12 @@ function renderWidget(id)
         widgetFails_Busy[id] = 0;
         if(widgetFails_Busy_Timer[id] != undefined) clearTimeout(widgetFails_Busy_Timer[id]);
 
-        winW["w" + tempwid].webContents.send('sendData', { // send data from main to renderer
-            inprogress: 1
-        });
+        if(loadingAnim)
+        {
+            winW["w" + tempwid].webContents.send('sendData', { // send data from main to renderer
+                inprogress: 1
+            });
+        }
 
         sett.Currently_Rendering = id;
         fs.writeFileSync(roamingPath + '\\settings.json', JSON.stringify(sett));
@@ -525,13 +530,15 @@ function failedRender()
         if(tempwid != -1 && winW["w" + tempwid].renderFailCount >= 3)
         {
             winW["w" + tempwid].renderFailCount = 0;
+            wtemprender[tempwid] = true;
+
             let dialogtemp = tempwid;
             tempwin.rendering = false;
             tempwid = -1;
             sett.Currently_Rendering = -1;
             fs.writeFileSync(roamingPath + '\\settings.json', JSON.stringify(sett));
             tempwin.loadFile("./empty.html");
-            
+
             dialog.showMessageBox(winW["w" + dialogtemp], {
                 type: "warning",
                 icon: "icon.ico",
@@ -540,7 +547,7 @@ function failedRender()
                 defaultId: 0,
                 cancelId: 1,
                 noLink: true,
-                message: "The widget renderer couldn't render the image.\nPossible network timeout.\nRestart the app to retry..."
+                message: "The widget renderer couldn't render the image.\nPossible network timeout.\nRestart the app or press 'Apply' again to retry..."
             }).then((result) => {
                 if(result.response === 1) app.exit();
             });
@@ -592,6 +599,18 @@ function renderWidgetCallback()
                 winW["w" + tempwid].webContents.send('sendData', { // send data from main to renderer
                     imgsrc: roamingPath + "\\widgetRender" + tempwid + ".png"
                 });
+
+                if(winW["w" + tempwid].updateInterval == null)
+                {
+                    const currid = tempwid;
+                    winW["w" + currid].updateInterval = 1;
+                    setTimeout(() => {
+                        winW["w" + currid].updateInterval = setInterval(() => {
+                            renderWidget(currid, false);
+                        }, 300000); // update widget every 5 min
+                    }, (currid+1)*500*((currid+1)/2));
+                }
+
                 tempwid = -1;
                 tempwin.rendering = false;
                 sett.Currently_Rendering = -1;
