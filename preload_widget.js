@@ -1,7 +1,6 @@
 const { contextBridge, ipcRenderer } = require("electron");
 const remote = require("@electron/remote");
 const fs = require("fs");
-const { send } = require("process");
 
 
 contextBridge.exposeInMainWorld('electronAPI', {
@@ -28,11 +27,7 @@ const win = remote.getCurrentWindow();
 const ttl = win.getTitle();
 let id = -1;
 if(!ttl.startsWith("Custom Widget - ID ")) console.error("The preload script couldn't get the widget ID");
-else
-{
-    id = Number(ttl.substring("Custom Widget - ID ".length));
-}
-
+else id = Number(ttl.substring("Custom Widget - ID ".length));
 
 
 

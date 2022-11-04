@@ -58,6 +58,13 @@ body {
 #windowBar_ts {
     color: #636363;
     padding-left: 1%;
+    cursor: pointer;
+    transition: color 0.1s;
+    -webkit-app-region: no-drag;
+}
+
+#windowBar_ts:hover {
+    color: #0075ff;
 }
 
 #windowBar_a {

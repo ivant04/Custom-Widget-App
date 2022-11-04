@@ -1,14 +1,28 @@
-const { app, session, BrowserWindow, Menu, Tray, ipcMain, globalShortcut, dialog } = require('electron');
+const { app, BrowserWindow, Menu, Tray, ipcMain, globalShortcut, dialog, shell } = require('electron');
 const { SetBottomMost } = require("electron-bottom-most");
 const { DisableMinimize } = require("electron-disable-minimize");
-const remoteMain = require("@electron/remote/main");
-remoteMain.initialize();
+const AutoLaunch = require("auto-launch");
 const path = require("path");
 const fs = require("fs");
+const remoteMain = require("@electron/remote/main");
+remoteMain.initialize();
 const MAX_WIDGETS = 10;
 
 
 let showDash = false;
+let Currently_Rendering = -1;
+
+for(let i = 0; i < process.argv.length; i++)
+{
+    // Open the dashboard and display all the shown widgets
+    if(process.argv[i].startsWith("--dashboard") || process.argv[i].startsWith("-dashboard") || process.argv[i].startsWith("dashboard"))
+    {
+        showDash = true;
+        break;
+    }
+    // Otherwise only display shown widgets, if there are not any exit the app
+}
+
 const roamingPath = process.env.APPDATA + '\\CustomWidgetApp';
 if(!fs.existsSync(roamingPath))
 {
@@ -26,25 +40,13 @@ let sett = JSON.parse(rawdata);
 if(rawdata == "" || rawdata == " " || rawdata == "{}" || rawdata == "{ }" || rawdata == undefined)
 {
     showDash = true;
-    sett.Currently_Rendering = -1;
+    global.Currently_Rendering = Currently_Rendering;
+    global.Cur_Widget_Scroll = 0;
     fs.writeFileSync(roamingPath + '\\settings.json', JSON.stringify(sett));
 }
-else
-{
-    let exist = false;
-    for(let i = 0; i < MAX_WIDGETS; i++)
-    {
-        if(sett["widget" + i] != undefined && sett["widget" + i]["Shown"] == "1")
-        {
-            exist = true;
-            break;
-        }
-    }
 
-    exist ? showDash = false : showDash = true;
-}
-
-sett.Currently_Rendering = -1;
+global.Currently_Rendering = Currently_Rendering;
+global.Cur_Widget_Scroll = 0;
 let win = {}, winW = {}, tempwin = {};
 let wtempreload = [], wtemprender = [];
 win.shown = false;
@@ -81,13 +83,12 @@ function createDashboard()
         let j = false;
         for(let i = 0; i < MAX_WIDGETS; i++)
         {
-            if(winW["w" + i] != undefined)
+            if(winW["w" + i] != null && winW["w" + i] != undefined)
             {
-                if(winW["w" + i].isResizable()) winW["w" + i].setResizable(false);
-                if(winW["w" + i].isMovable()) winW["w" + i].setMovable(false);
-
                 if(winW["w" + i].shown)
                 {
+                    if(winW["w" + i].isResizable()) winW["w" + i].setResizable(false);
+                    if(winW["w" + i].isMovable()) winW["w" + i].setMovable(false);
                     j = true;
                 }
             }
@@ -196,6 +197,9 @@ function createDashboard()
     ipcMain.on('closeWin', (event, val) => {
         if(val) win.close();
     });
+    ipcMain.on('openGitHub', (event, val) => {
+        if(val) shell.openExternal("https://github.com/Toxic48");
+    });
     
     win.loadFile("dashboard/index.html");
     win.shown = true;
@@ -253,6 +257,9 @@ function createWidget(id)
             sett["widget" + id].Pos_Y = posy;
         }
     });
+    winW["w" + id].on("closed", () => {
+        winW["w" + id] = null;
+    });
     remoteMain.enable(winW["w" + id].webContents);
 
     winW["w" + id].loadFile("index.html");
@@ -265,11 +272,6 @@ function createWidget(id)
     winW["w" + id].updateInterval = null;
 
     renderWidget(id);
-
-
-    /*setInterval(() => {
-        console.log(winW["w" + id].isMovable());
-    }, 1000);*/
 }
 ipcMain.on('widgetLogs', (event, obj) => {
     let values = "";
@@ -283,6 +285,7 @@ ipcMain.on('widgetLogs', (event, obj) => {
 
 function createShownWidgets()
 {
+    let any = 0;
     for(let i = 0; i < MAX_WIDGETS; i++)
     {
         if(sett["widget" + i] != undefined)
@@ -290,9 +293,11 @@ function createShownWidgets()
             if(sett["widget" + i]["Shown"] != undefined && Number(sett["widget" + i]["Shown"]) == 1)
             {
                 createWidget(i);
+                any++;
             }
         }
     }
+    if(!any && win.shown != true) app.exit();
 }
 
 function widgetSetData(id)
@@ -399,46 +404,61 @@ function createTempWin()
     tempwin.on("closed", (event) => {
         app.exit();
     });
+    remoteMain.enable(tempwin.webContents);
 }
 //----------//
 
 let tray = null;
 
+const gotTheLock = app.requestSingleInstanceLock();
+if(!gotTheLock) app.quit();
+
+app.on("second-instance", (event, commandLine, workingDirectory) => {
+    for(let i = 0; i < commandLine.length; i++)
+    {
+        if(commandLine[i].startsWith("--dashboard") || commandLine[i].startsWith("-dashboard") || commandLine[i].startsWith("dashboard"))
+        {
+            if(win.shown != true) createDashboard();
+        }
+    }
+    
+});
 
 app.whenReady().then(() => {
     createTempWin();
 
-    if(showDash)
+    if(showDash && win.shown != true)
     {
         createDashboard();
     }
-    else
-    {
-        createShownWidgets();
-    }
+    
+    createShownWidgets();
 
-    if(!showDash)
+    for(let i = 0; i < MAX_WIDGETS; i++)
     {
-        for(let i = 0; i < MAX_WIDGETS; i++)
+        if(winW["w" + i] != undefined)
         {
-            if(winW["w" + i] != undefined)
-            {
-                SetBottomMost(winW["w" + i].getNativeWindowHandle());
-                DisableMinimize(winW["w" + i].getNativeWindowHandle());
-            }
+            SetBottomMost(winW["w" + i].getNativeWindowHandle());
+            DisableMinimize(winW["w" + i].getNativeWindowHandle());
         }
     }
     //----------//
 
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) {
+            createTempWin();
             if(showDash)
             {
                 createDashboard();
             }
-            else
+            createWidget();
+            for(let i = 0; i < MAX_WIDGETS; i++)
             {
-                createWidget();
+                if(winW["w" + i] != undefined)
+                {
+                    SetBottomMost(winW["w" + i].getNativeWindowHandle());
+                    DisableMinimize(winW["w" + i].getNativeWindowHandle());
+                }
             }
         }
     });
@@ -460,16 +480,18 @@ app.whenReady().then(() => {
     }]);
     tray.setToolTip("Custom Widget App");
     tray.setContextMenu(contextMenu);
-    //
 
-    globalShortcut.register("Shift+0", () => {
-        win.webContents.reload();
-    });
-    globalShortcut.register("Shift+9", () => {
-        winW["w0"].webContents.openDevTools();
-    });
-    
-
+    // Auto-launch on startup
+    if(!app.getPath("exe").startsWith(app.getPath("desktop")))
+    {
+        let autoLaunch = new AutoLaunch({
+            name: "Custom Widget App",
+            path: app.getPath("exe")
+        });
+        autoLaunch.isEnabled().then((isEnabled) => {
+            if(!isEnabled) autoLaunch.enable();
+        });
+    }
 });
 
 app.on('window-all-closed', () => {
@@ -499,7 +521,9 @@ function renderWidget(id, loadingAnim = true)
             });
         }
 
-        sett.Currently_Rendering = id;
+        Currently_Rendering = id;
+        global.Currently_Rendering = Currently_Rendering;
+        global.Cur_Widget_Scroll = sett["widget" + id].Scroll || 0;
         fs.writeFileSync(roamingPath + '\\settings.json', JSON.stringify(sett));
 
         tempwin.loadURL(sett["widget" + id].URL);
@@ -535,7 +559,9 @@ function failedRender()
             let dialogtemp = tempwid;
             tempwin.rendering = false;
             tempwid = -1;
-            sett.Currently_Rendering = -1;
+            Currently_Rendering = -1;
+            global.Currently_Rendering = Currently_Rendering;
+            global.Cur_Widget_Scroll = 0;
             fs.writeFileSync(roamingPath + '\\settings.json', JSON.stringify(sett));
             tempwin.loadFile("./empty.html");
 
@@ -558,7 +584,9 @@ function failedRender()
             let retryid = tempwid;
             tempwin.rendering = false;
             tempwid = -1;
-            sett.Currently_Rendering = -1;
+            Currently_Rendering = -1;
+            global.Currently_Rendering = Currently_Rendering;
+            global.Cur_Widget_Scroll = 0;
             fs.writeFileSync(roamingPath + '\\settings.json', JSON.stringify(sett));
             tempwin.loadFile("./empty.html");
             setTimeout(() => {
@@ -572,7 +600,9 @@ function failedRender()
 function renderWidgetCallback()
 {
     tempwin.timeout2 = setTimeout(() => {
-        sett.Currently_Rendering = -1;
+        Currently_Rendering = -1;
+        global.Currently_Rendering = Currently_Rendering;
+        global.Cur_Widget_Scroll = 0;
         fs.writeFileSync(roamingPath + '\\settings.json', JSON.stringify(sett));
         tempwin.rendering = false;
         let www = tempwid;
@@ -613,7 +643,9 @@ function renderWidgetCallback()
 
                 tempwid = -1;
                 tempwin.rendering = false;
-                sett.Currently_Rendering = -1;
+                Currently_Rendering = -1;
+                global.Currently_Rendering = Currently_Rendering;
+                global.Cur_Widget_Scroll = 0;
                 fs.writeFileSync(roamingPath + '\\settings.json', JSON.stringify(sett));
                 tempwin.loadFile("./empty.html");
             }
