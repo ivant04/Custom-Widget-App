@@ -2,7 +2,7 @@
 ## Custom Windows desktop widgets
 [![Powered by Electron](https://i.imgur.com/MZqkD2n.png)](http://electronjs.org/) ![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
 ### __BETA --- PRERELEASE__
-#
+ 
 >A Windows app that lets you display any web page on your desktop as a widget
 
 #
