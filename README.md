@@ -17,6 +17,7 @@
 
 *The widget contents update on an interval (every 5 minutes)<br />
 **To disable opening the app on startup hide all widgets through the dashboard
+
 &nbsp;
 ## Installation
 
@@ -24,16 +25,19 @@ The app currently only supports Windows 10/11 operating systems.
 
 To download head over to [releases](https://github.com/Toxic48/Custom-Widget-App/releases) section, and choose the setup file (.exe) from the latest release.
 After the setup file is downloaded run it and follow further instructions.
+
 &nbsp;
 ## Screenshots
 
 ![Dashboard](https://i.imgur.com/6pdAxpR.png)
 ![Widget](https://i.imgur.com/VwUWsLS.png)
+
 &nbsp;
 ## Built with
 - [Electron](https://www.electronjs.org/)
 - [Node.js](http://nodejs.org)
 - [Fontawesome](https://fontawesome.com/)
+
 &nbsp;
 ## License
 
