@@ -19,7 +19,7 @@
 
 &nbsp;
 ## Installation
-&nbsp;
+
 The app currently only supports Windows 10/11 operating systems.
 
 To download head over to [releases](https://github.com/Toxic48/Custom-Widget-App/releases) section, and choose the setup file (.exe) from the latest release.
@@ -33,5 +33,5 @@ After the setup file is downloaded run it and follow further instructions.
 
 &nbsp;
 ## License
-&nbsp;
+
 This project is licensed under the terms of the MIT license.
