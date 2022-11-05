@@ -44,6 +44,20 @@ if(rawdata == "" || rawdata == " " || rawdata == "{}" || rawdata == "{ }" || raw
     global.Cur_Widget_Scroll = 0;
     fs.writeFileSync(roamingPath + '\\settings.json', JSON.stringify(sett));
 }
+const emptPath = roamingPath + '\\empty.html';
+if(!fs.existsSync(emptPath))
+{
+    // This file is used for loading it into the renderer (tempwin) after a render is finished to make sure
+    // the renderer opens a fresh page next time, and to use less memory while idling
+    fs.writeFileSync(emptPath, '<html lang="en">\
+    <head>\
+        <meta charset="UTF-8">\
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">\
+        <title>Empty</title>\
+    </head>\
+    <body></body>\
+    </html>');
+}
 
 global.Currently_Rendering = Currently_Rendering;
 global.Cur_Widget_Scroll = 0;
@@ -69,7 +83,7 @@ function createDashboard()
         frame: false,
         webPreferences: {
             nodeIntegration: true,
-            preload: `${__dirname}/dashboard/preload_sendData.js`
+            preload: `${__dirname}/dashboard/preload_dashboard.js`
         }
     });
     win.on("page-title-updated", (event) => {
@@ -203,7 +217,6 @@ function createDashboard()
     
     win.loadFile("dashboard/index.html");
     win.shown = true;
-
 }
 
 function createWidget(id)
@@ -563,7 +576,7 @@ function failedRender()
             global.Currently_Rendering = Currently_Rendering;
             global.Cur_Widget_Scroll = 0;
             fs.writeFileSync(roamingPath + '\\settings.json', JSON.stringify(sett));
-            tempwin.loadFile("./empty.html");
+            tempwin.loadFile(emptPath);
 
             dialog.showMessageBox(winW["w" + dialogtemp], {
                 type: "warning",
@@ -588,7 +601,7 @@ function failedRender()
             global.Currently_Rendering = Currently_Rendering;
             global.Cur_Widget_Scroll = 0;
             fs.writeFileSync(roamingPath + '\\settings.json', JSON.stringify(sett));
-            tempwin.loadFile("./empty.html");
+            tempwin.loadFile(emptPath);
             setTimeout(() => {
                 console.log("The widget renderer failed to render an image, retrying... [ID: " + retryid + "]");
                 renderWidget(retryid);
@@ -647,7 +660,7 @@ function renderWidgetCallback()
                 global.Currently_Rendering = Currently_Rendering;
                 global.Cur_Widget_Scroll = 0;
                 fs.writeFileSync(roamingPath + '\\settings.json', JSON.stringify(sett));
-                tempwin.loadFile("./empty.html");
+                tempwin.loadFile(emptPath);
             }
         }
     });

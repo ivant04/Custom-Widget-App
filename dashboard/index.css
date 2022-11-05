@@ -176,8 +176,6 @@ body {
     flex-direction: column;
     padding: 0.8vh 2.5% 0 0;
     left: 2%;
-    transition: 0.2s filter linear;
-    filter: blur(5px);
 }
 
 .title {
@@ -195,8 +193,6 @@ body {
     justify-content: center;
     align-items: center;
     margin-top: 4%;
-    transition: 0.2s filter linear, color 0.2s;
-    filter: blur(5px);
 }
 
 #apply {

@@ -447,9 +447,9 @@
 
         window.addEventListener('load', () => {
 
-            setupCarousel(n, parseFloat(getComputedStyle(els[0]).width));
+            setTimeout(() => setupCarousel(n, parseFloat(getComputedStyle(els[0]).width)), 200);
             window.addEventListener('resize', () => { 
-                setupCarousel(n, parseFloat(getComputedStyle(els[0]).width)) 
+                setupCarousel(n, parseFloat(getComputedStyle(els[0]).width));
             });
 
             for(let i = 0; i < n; i++)
@@ -461,7 +461,6 @@
                     }
                     else
                     {
-                        loadCooldown = true;
                         let index = Array.prototype.indexOf.call(e.target.parentNode.children, e.target);
                         
                         currWidget = index;
@@ -477,7 +476,6 @@
                 }
                 else
                 {
-                    loadCooldown = true;
                     if(currWidget <= 0) currWidget = 9;
                     else currWidget--;
                     rotateCarousel(currWidget);
@@ -490,7 +488,6 @@
                 }
                 else
                 {
-                    loadCooldown = true;
                     if(currWidget >= (n-1)) currWidget = 0;
                     else currWidget++;
                     rotateCarousel(currWidget);
@@ -532,7 +529,11 @@
         {
             if(el_index != loadedWidget)
             {
-                loadWidget(el_index);
+                if(!loadCooldown)
+                {
+                    loadCooldown = true;
+                    loadWidget(el_index);
+                }
             }
             figure.style.transform = `rotateY(${el_index * -theta}rad)`;
         }
@@ -552,57 +553,51 @@
                     currWidget = id;
                     rotateCarousel(currWidget);
                 }
-                document.getElementsByClassName("widget_mainp")[0].style.filter = "blur(5px)";
-                document.getElementById("applywrap").style.filter = "blur(5px)";
-                setTimeout(() => {
-                    if(sett["widget" + id] !== undefined)
-                    {
-                        document.getElementById("inp_url").value = sett["widget" + id]["URL"] || "";
-                        document.getElementById("inp_scr0").value = sett["widget" + id]["Scroll"] || 0;
-                        document.getElementById("inp_pos0").value = sett["widget" + id]["Pos_X"] || 100;
-                        document.getElementById("inp_pos1").value = sett["widget" + id]["Pos_Y"] || 140;
-                        document.getElementById("inp_siz0").value = sett["widget" + id]["Size_X"] || 400;
-                        document.getElementById("inp_siz1").value = sett["widget" + id]["Size_Y"] || 250;
-                        document.getElementById("inp_vis").checked = Number(sett["widget" + id]["Shown"] || 0);
-                        document.getElementById("inp_opa0").value = sett["widget" + id]["Opacity"] || 100;
-                        document.getElementById("inp_zoo0").value = sett["widget" + id]["Zoom"] || 100;  
-                        document.getElementById("inp_ofx0").value = sett["widget" + id]["Zoom_Pos_X"] || 50;
-                        document.getElementById("inp_ofy0").value = sett["widget" + id]["Zoom_Pos_Y"] || 50;
-                        document.getElementById("inp_rou0").value = sett["widget" + id]["Round_Edges"] || 10;
-                        document.getElementById("inp_bow0").value = sett["widget" + id]["Border_Width"] || 1;
-                        document.getElementById("inp_boc0").value = sett["widget" + id]["Border_Color"] || "#ffffff";
-                    }
-                    else
-                    {
-                        document.getElementById("inp_url").value = "";
-                        document.getElementById("inp_scr0").value = 0;
-                        document.getElementById("inp_pos0").value = 100;
-                        document.getElementById("inp_pos1").value = 140;
-                        document.getElementById("inp_siz0").value = 400;
-                        document.getElementById("inp_siz1").value = 250;
-                        document.getElementById("inp_vis").checked = 0;
-                        document.getElementById("inp_opa0").value = 100;
-                        document.getElementById("inp_zoo0").value = 100;  
-                        document.getElementById("inp_ofx0").value = 50;
-                        document.getElementById("inp_ofy0").value = 50;
-                        document.getElementById("inp_rou0").value = 10;
-                        document.getElementById("inp_bow0").value = 1;
-                        document.getElementById("inp_boc0").value = "#ffffff";
-                    }
-                    updateInp("opa", 0);
-                    updateInp("zoo", 0);
-                    updateInp("ofx", 0);
-                    updateInp("ofy", 0);
-                    updateInp("rou", 0);
-                    updateInp("bow", 0);
-
+                
+                if(sett["widget" + id] !== undefined)
+                {
+                    document.getElementById("inp_url").value = sett["widget" + id]["URL"] || "";
+                    document.getElementById("inp_scr0").value = sett["widget" + id]["Scroll"] || 0;
+                    document.getElementById("inp_pos0").value = sett["widget" + id]["Pos_X"] || 100;
+                    document.getElementById("inp_pos1").value = sett["widget" + id]["Pos_Y"] || 140;
+                    document.getElementById("inp_siz0").value = sett["widget" + id]["Size_X"] || 400;
+                    document.getElementById("inp_siz1").value = sett["widget" + id]["Size_Y"] || 250;
+                    document.getElementById("inp_vis").checked = Number(sett["widget" + id]["Shown"] || 0);
+                    document.getElementById("inp_opa0").value = sett["widget" + id]["Opacity"] || 100;
+                    document.getElementById("inp_zoo0").value = sett["widget" + id]["Zoom"] || 100;  
+                    document.getElementById("inp_ofx0").value = sett["widget" + id]["Zoom_Pos_X"] || 50;
+                    document.getElementById("inp_ofy0").value = sett["widget" + id]["Zoom_Pos_Y"] || 50;
+                    document.getElementById("inp_rou0").value = sett["widget" + id]["Round_Edges"] || 10;
+                    document.getElementById("inp_bow0").value = sett["widget" + id]["Border_Width"] || 1;
+                    document.getElementById("inp_boc0").value = sett["widget" + id]["Border_Color"] || "#ffffff";
                     
-                    setTimeout(() => {
-                        document.getElementsByClassName("widget_mainp")[0].style.filter = "none";
-                        document.getElementById("applywrap").style.filter = "none";
-                        loadCooldown = false;
-                    }, 250);
-                }, 500);
+                }
+                else
+                {
+                    document.getElementById("inp_url").value = "";
+                    document.getElementById("inp_scr0").value = 0;
+                    document.getElementById("inp_pos0").value = 100;
+                    document.getElementById("inp_pos1").value = 140;
+                    document.getElementById("inp_siz0").value = 400;
+                    document.getElementById("inp_siz1").value = 250;
+                    document.getElementById("inp_vis").checked = 0;
+                    document.getElementById("inp_opa0").value = 100;
+                    document.getElementById("inp_zoo0").value = 100;
+                    document.getElementById("inp_ofx0").value = 50;
+                    document.getElementById("inp_ofy0").value = 50;
+                    document.getElementById("inp_rou0").value = 10;
+                    document.getElementById("inp_bow0").value = 1;
+                    document.getElementById("inp_boc0").value = "#ffffff";
+                    
+                }
+                updateInp("opa", 0);
+                updateInp("zoo", 0);
+                updateInp("ofx", 0);
+                updateInp("ofy", 0);
+                updateInp("rou", 0);
+                updateInp("bow", 0);
+
+                loadCooldown = false;
             }
         }
 
