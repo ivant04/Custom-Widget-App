@@ -14,7 +14,7 @@
 - Live updating of the widget contents*
 - Automatically open the app on Windows startup**
 
-*The widget contents update on an interval (every 5 minutes)
+*The widget contents update on an interval (every 5 minutes)<br />
 **To disable opening the app on startup hide all widgets through the dashboard
 
 &nbsp;
