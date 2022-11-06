@@ -1,21 +1,25 @@
 {
    "name": "cwa",
    "productName": "CustomWidgetApp",
-   "version": "1.0.0",
+   "version": "1.0.0-beta",
    "description": "Create custom widgets for your desktop",
    "main": "main.js",
    "scripts": {
       "start": "electron-forge start",
-      "package": "electron-forge package",
-      "make": "electron-forge make",
-      "publish": "electron-forge publish",
-      "lint": "echo \"No linting configured\""
+      "package": "electron-forge package"
    },
    "keywords": [
-      "Electron"
+      "Widget",
+      "Custom",
+      "Electron",
+      "Windows"
    ],
    "author": "Toxic48",
    "license": "MIT",
+   "repository": {
+      "type": "git",
+      "url": "https://github.com/Toxic48/Custom-Widget-App.git"
+   },
    "config": {
       "forge": {
          "packagerConfig": {
