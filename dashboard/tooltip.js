@@ -1,3 +1,4 @@
+// Downloaded from https://github.com/Toxic48/attribute-tooltips
 // Including tooltip.css to user's HTML file
 
 var http = new XMLHttpRequest();
