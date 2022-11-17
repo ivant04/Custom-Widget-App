@@ -37,6 +37,7 @@ After the setup file is downloaded run it and follow further instructions.
 - [Electron](https://www.electronjs.org/)
 - [Node.js](http://nodejs.org)
 - [Fontawesome](https://fontawesome.com/)
+- [InstallForge](https://installforge.net/)
 
 &nbsp;
 ## License
