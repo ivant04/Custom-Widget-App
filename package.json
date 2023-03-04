@@ -1,7 +1,7 @@
 {
    "name": "cwa",
    "productName": "CustomWidgetApp",
-   "version": "1.0.0-beta",
+   "version": "1.0.1-beta",
    "description": "Create custom widgets for your desktop",
    "main": "main.js",
    "scripts": {
@@ -14,12 +14,15 @@
       "Electron",
       "Windows"
    ],
-   "author": "Toxic48",
-   "license": "MIT",
+   "author": {
+    "name": "ivant04",
+    "email": "77108700+ivant04@users.noreply.github.com"
+   },
    "repository": {
       "type": "git",
-      "url": "https://github.com/Toxic48/Custom-Widget-App.git"
+      "url": "https://github.com/ivant04/Custom-Widget-App.git"
    },
+   "license": "MIT",
    "config": {
       "forge": {
          "packagerConfig": {

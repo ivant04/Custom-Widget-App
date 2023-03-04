@@ -1,5 +1,5 @@
 ![Logo](https://i.imgur.com/1adEOvh.png)
-## Custom Windows desktop widgets --- __BETA PRERELEASE__
+## Custom Windows desktop widgets --- __BETA__
 
 [![Powered by Electron](https://i.imgur.com/MZqkD2n.png)](http://electronjs.org/) ![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
 &nbsp;
