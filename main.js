@@ -212,7 +212,7 @@ function createDashboard()
         if(val) win.close();
     });
     ipcMain.on('openGitHub', (event, val) => {
-        if(val) shell.openExternal("https://github.com/Toxic48");
+        if(val) shell.openExternal("https://github.com/ivant04");
     });
     
     win.loadFile("dashboard/index.html");
