@@ -1,7 +1,7 @@
 {
    "name": "cwa",
    "productName": "CustomWidgetApp",
-   "version": "1.0.1-beta",
+   "version": "1.0.2-beta",
    "description": "Create custom widgets for your desktop",
    "main": "main.js",
    "scripts": {
